@@ -17,8 +17,8 @@ function App() {
 
   return (
     <div className="App">
-      {isLoading && <h1>Loader...</h1>}
-      <Counter />
+      {/*{isLoading && <h1>Loader...</h1>}*/}
+      {/*<Counter />*/}
     </div>
   );
 }
