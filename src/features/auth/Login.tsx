@@ -3,18 +3,19 @@ import { useAppDispatch } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import { Header } from "common/components/Header";
 import { Form, Inputs } from "common/components/Form";
+import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
 
 export const Login = () => {
   const dispatch = useAppDispatch();
 
-  const queryLogin = (payload: Inputs) => {
+  const queryLogin = (payload: ArgLoginType) => {
     dispatch(authThunks.login(payload));
   };
 
   return (
     <div>
       <Header />
-      <Form title={"Sign in"} callBack={queryLogin} />
+      <Form title={"Sign in"} callBack={queryLogin} forRegister={false} />
     </div>
   );
 };
