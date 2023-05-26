@@ -1,12 +1,19 @@
 import React from "react";
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
-import { Header } from "common/components/Header";
-import { Form, Inputs } from "common/components/Form";
-import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
+import { Header } from "common/componentsBIG/Header";
+import { Form } from "common/componentsBIG/Form";
+import { ArgLoginType } from "features/auth/auth.api";
+import { useNavigate } from "react-router-dom";
 
 export const Login = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const logined = useAppSelector((state) => state.auth.profile);
+
+  if (logined) {
+    navigate("/profile");
+  }
 
   const queryLogin = (payload: ArgLoginType) => {
     dispatch(authThunks.login(payload));
@@ -25,10 +32,10 @@ export const Login = () => {
 // import React from "react";
 // import { useAppDispatch } from "app/hooks";
 // import { authThunks } from "features/auth/auth.slice";
-// import { Header } from "common/components/Header";
+// import { Header } from "common/componentsBIG/Header";
 // import { SubmitHandler, useForm } from "react-hook-form";
 // import Paper from "@mui/material/Paper";
-// import styled from "styled-components";
+// import styled from "styled-componentsBIG";
 // import FormControl from "@mui/material/FormControl";
 // import InputLabel from "@mui/material/InputLabel";
 // import FilledInput from "@mui/material/FilledInput";
@@ -193,7 +200,7 @@ export const Login = () => {
 // import React from "react";
 // import { useAppDispatch } from "app/hooks";
 // import { authThunks } from "features/auth/auth.slice";
-// import { Header } from "common/components/Header";
+// import { Header } from "common/componentsBIG/Header";
 // import { SubmitHandler, useForm } from "react-hook-form";
 //
 // type Inputs = {

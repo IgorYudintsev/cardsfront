@@ -1,12 +1,22 @@
-import { useAppDispatch } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
-import { Form, Inputs } from "common/components/Form";
-import { Header } from "common/components/Header";
+import { Form, Inputs } from "common/componentsBIG/Form";
+import { Header } from "common/componentsBIG/Header";
 import React from "react";
 import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
+import { useNavigate } from "react-router-dom";
 
 export const Register = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const registered = useAppSelector((state) => state.auth.registred);
+
+  if (registered) {
+    navigate("/login");
+  }
+  // const goToForgotpassword = () => {
+  //   //   navigate("/forgotpassword");
+  //   // };
 
   const queryRegister = (payload: ArgLoginType) => {
     const payloadWithoutRememberMe = {

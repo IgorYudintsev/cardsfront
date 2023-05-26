@@ -5,7 +5,7 @@ import { store } from "./app/store";
 import App from "app/App";
 import reportWebVitals from "./reportWebVitals";
 import "./index.css";
-import { BrowserRouter, createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { Forgotpassword } from "features/auth/Forgotpassword";
 import { Profile } from "features/packs/Profile";
 import { Packs } from "features/packs/Packs";
@@ -15,7 +15,7 @@ import { Login } from "features/auth/Login";
 import { Register } from "features/auth/Register";
 import { SetNewPassword } from "features/auth/SetNewPassword";
 import { CheckEmail } from "features/packs/CheckEmail";
-import { dividerClasses } from "@mui/material";
+import { Header } from "common/componentsBIG/Header";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
@@ -23,7 +23,7 @@ const root = createRoot(container);
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hellow!</div>,
+    element: <Header />,
   },
   {
     path: "/forgotpassword",

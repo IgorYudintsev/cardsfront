@@ -6,6 +6,7 @@ const slice = createSlice({
   name: "auth",
   initialState: {
     profile: null as ProfileType | null,
+    registred: false as boolean,
   },
   reducers: {
     // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
@@ -16,26 +17,25 @@ const slice = createSlice({
     builder.addCase(login.fulfilled, (state, action) => {
       state.profile = action.payload.profile;
     });
+    builder.addCase(register.fulfilled, (state, action) => {
+      state.registred = action.payload.registred;
+    });
   },
 });
 
-const register = createAsyncThunk<void, { payload: ArgRegisterType }>("auth/register", async (arg, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    let res = await authApi.register(arg.payload);
-    return console.log(res.data.addedUser);
-  } catch (e) {
-    return rejectWithValue(null);
+const register = createAsyncThunk<{ registred: boolean }, { payload: ArgRegisterType }>(
+  "auth/register",
+  async (arg, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      let res = await authApi.register(arg.payload);
+      return { registred: true };
+      // return console.log(res.data.addedUser);
+    } catch (e) {
+      return rejectWithValue(null);
+    }
   }
-});
-
-// const _login = createAsyncThunk<any, any>("auth/login",
-//     (arg: ArgLoginType, thunkAPI) => {
-//   const { dispatch } = thunkAPI;
-//   authApi.login(arg).then((res) => {
-//     dispatch(authActions.setProfile({ profile: res.data }));
-//   });
-// });
+);
 
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;

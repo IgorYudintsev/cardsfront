@@ -16,6 +16,8 @@ import { Link } from "react-router-dom";
 import Button from "@mui/material/Button";
 import styled from "styled-components";
 import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
+import { TextInput } from "common/componentsSmall/TextInput";
+import { PasswordTextInput } from "common/componentsSmall/PasswordTextInput";
 
 type PropsType = {
   title: string;
@@ -32,25 +34,23 @@ export type Inputs = {
 
 export const Form: React.FC<PropsType> = (props) => {
   const { title, callBack, forRegister } = props;
-  const [showPassword, setShowPassword] = useState(false);
-  const [showPassword2, setShowPassword2] = useState(false);
+
+  // const [showPassword2, setShowPassword2] = useState(false);
   const [passwordsRequire, setPasswordsRequire] = useState(true);
-  const handleClickShowPassword = () => setShowPassword((show) => !show);
-  const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
-  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
-  const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
-    event.preventDefault();
-  };
+  // const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
+  // const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
+  //   event.preventDefault();
+  // };
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log(data);
     const payload = {
       email: data.email, //dollarselephant@gmail.com
       password: data.password, //12345678
@@ -77,61 +77,88 @@ export const Form: React.FC<PropsType> = (props) => {
           <FormWrapper>
             <h2 style={{ fontFamily: "Montserrat" }}>{title}</h2>
 
-            <TextField
-              {...register("email")}
-              sx={{ m: 1 }}
-              id="filled-helperText"
+            <TextInput
+              name="email"
               label="Email"
-              defaultValue="Email"
-              helperText="Please Enter your Login"
-              variant="filled"
+              rules={{ required: "Email is required" }}
+              control={control}
+              errors={errors.email}
             />
-            <FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>
-              <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
-              <FilledInput
-                {...register("password", { required: true })}
-                id="filled-adornment-password"
-                type={showPassword ? "text" : "password"}
-                endAdornment={
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      onMouseDown={handleMouseDownPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                }
-              />
-              {errors.password && <span style={{ color: "red" }}>This field is required</span>}
-              {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}
-            </FormControl>
+
+            {/*<TextField*/}
+            {/*  {...register("email")}*/}
+            {/*  sx={{ m: 1 }}*/}
+            {/*  id="filled-helperText"*/}
+            {/*  label="Email"*/}
+            {/*  defaultValue="Email"*/}
+            {/*  helperText="Please Enter your Login"*/}
+            {/*  variant="filled"*/}
+            {/*/>*/}
+
+            <PasswordTextInput
+              name={"password"}
+              label={"Password"}
+              rules={{ required: "Password is required" }}
+              control={control}
+              errors={errors.password}
+              passwordsRequire={passwordsRequire}
+            />
+
+            {/*<FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>*/}
+            {/*  <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>*/}
+            {/*  <FilledInput*/}
+            {/*    {...register("password", { required: true })}*/}
+            {/*    id="filled-adornment-password"*/}
+            {/*    type={showPassword ? "text" : "password"}*/}
+            {/*    endAdornment={*/}
+            {/*      <InputAdornment position="end">*/}
+            {/*        <IconButton*/}
+            {/*          aria-label="toggle password visibility"*/}
+            {/*          onClick={handleClickShowPassword}*/}
+            {/*          onMouseDown={handleMouseDownPassword}*/}
+            {/*          edge="end"*/}
+            {/*        >*/}
+            {/*          {showPassword ? <VisibilityOff /> : <Visibility />}*/}
+            {/*        </IconButton>*/}
+            {/*      </InputAdornment>*/}
+            {/*    }*/}
+            {/*  />*/}
+            {/*  /!*{errors.password && <span style={{ color: "red" }}>This field is required</span>}*!/*/}
+            {/*  {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}*/}
+            {/*</FormControl>*/}
 
             {forRegister && (
-              <FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>
-                <InputLabel htmlFor="filled-adornment-password"> REPEAT Password</InputLabel>
-                <FilledInput
-                  {...register("password2", { required: true })}
-                  id="filled-adornment-password"
-                  type={showPassword2 ? "text" : "password"}
-                  endAdornment={
-                    <InputAdornment position="end">
-                      <IconButton
-                        aria-label="toggle password visibility"
-                        onClick={handleClickShowPassword2}
-                        onMouseDown={handleMouseDownPassword2}
-                        edge="end"
-                      >
-                        {showPassword2 ? <VisibilityOff /> : <Visibility />}
-                      </IconButton>
-                    </InputAdornment>
-                  }
-                />
-                {errors.password2 && <span style={{ color: "red" }}>This field is required</span>}
-                {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}
-              </FormControl>
+              <PasswordTextInput
+                name={"password2"}
+                label={"Password"}
+                rules={{ required: "Password is required" }}
+                control={control}
+                errors={errors.password2}
+                passwordsRequire={passwordsRequire}
+              />
+
+              // <FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>
+              //   <InputLabel htmlFor="filled-adornment-password"> REPEAT Password</InputLabel>
+              //   <FilledInput
+              //     {...register("password2", { required: true })}
+              //     id="filled-adornment-password"
+              //     type={showPassword2 ? "text" : "password"}
+              //     endAdornment={
+              //       <InputAdornment position="end">
+              //         <IconButton
+              //           aria-label="toggle password visibility"
+              //           onClick={handleClickShowPassword2}
+              //           onMouseDown={handleMouseDownPassword2}
+              //           edge="end"
+              //         >
+              //           {showPassword2 ? <VisibilityOff /> : <Visibility />}
+              //         </IconButton>
+              //       </InputAdornment>
+              //     }
+              //   />
+              //   {errors.password2 && <span style={{ color: "red" }}>This field is required</span>}
+              //   {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}
+              // </FormControl>
             )}
 
             {!forRegister && (
@@ -214,8 +241,7 @@ const FormWrapper = styled.span`
 `;
 
 //------------------------------------------------------------------------
-
-// import React from "react";
+// import React, { useState } from "react";
 // import { useAppDispatch } from "app/hooks";
 // import { SubmitHandler, useForm } from "react-hook-form";
 // import { authThunks } from "features/auth/auth.slice";
@@ -232,39 +258,62 @@ const FormWrapper = styled.span`
 // import { Link } from "react-router-dom";
 // import Button from "@mui/material/Button";
 // import styled from "styled-components";
+// import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
+// import { TextInput } from "common/componentsSmall/TextInput";
 //
 // type PropsType = {
 //   title: string;
-//   callBack: (payload: Inputs) => void;
+//   callBack: (payload: ArgLoginType) => void;
+//   forRegister: boolean;
 // };
 //
 // export type Inputs = {
 //   email: string;
 //   password: string;
+//   password2?: string;
 //   rememberMe: boolean;
 // };
 //
 // export const Form: React.FC<PropsType> = (props) => {
-//   const { title, callBack } = props;
-//   const [showPassword, setShowPassword] = React.useState(false);
+//   const { title, callBack, forRegister } = props;
+//   const [showPassword, setShowPassword] = useState(false);
+//   const [showPassword2, setShowPassword2] = useState(false);
+//   const [passwordsRequire, setPasswordsRequire] = useState(true);
 //   const handleClickShowPassword = () => setShowPassword((show) => !show);
+//   const handleClickShowPassword2 = () => setShowPassword2((show) => !show);
 //   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+//     event.preventDefault();
+//   };
+//   const handleMouseDownPassword2 = (event: React.MouseEvent<HTMLButtonElement>) => {
 //     event.preventDefault();
 //   };
 //
 //   const {
+//     control,
 //     register,
 //     handleSubmit,
 //     formState: { errors },
 //   } = useForm<Inputs>();
 //
 //   const onSubmit: SubmitHandler<Inputs> = (data) => {
+//     console.log(data);
 //     const payload = {
 //       email: data.email, //dollarselephant@gmail.com
 //       password: data.password, //12345678
 //       rememberMe: data.rememberMe,
 //     };
-//     callBack(payload);
+//     if (!forRegister) {
+//       callBack(payload);
+//     }
+//     if (forRegister && data.password === data.password2) {
+//       setPasswordsRequire(true);
+//       callBack(payload);
+//       console.log("OK");
+//     }
+//     if (forRegister && data.password !== data.password2) {
+//       setPasswordsRequire(false);
+//       console.log("STOP!");
+//     }
 //   };
 //
 //   return (
@@ -273,15 +322,19 @@ const FormWrapper = styled.span`
 //           <form onSubmit={handleSubmit(onSubmit)}>
 //             <FormWrapper>
 //               <h2 style={{ fontFamily: "Montserrat" }}>{title}</h2>
-//               <TextField
-//                   {...register("email")}
-//                   sx={{ m: 1 }}
-//                   id="filled-helperText"
-//                   label="Email"
-//                   defaultValue="Email"
-//                   helperText="Please Enter your Login"
-//                   variant="filled"
-//               />
+//
+//               <TextInput name="email" label="email" rules={{ required: "Email is required" }} control={control} />
+//
+//               {/*<TextField*/}
+//               {/*  {...register("email")}*/}
+//               {/*  sx={{ m: 1 }}*/}
+//               {/*  id="filled-helperText"*/}
+//               {/*  label="Email"*/}
+//               {/*  defaultValue="Email"*/}
+//               {/*  helperText="Please Enter your Login"*/}
+//               {/*  variant="filled"*/}
+//               {/*/>*/}
+//
 //               <FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>
 //                 <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
 //                 <FilledInput
@@ -301,15 +354,46 @@ const FormWrapper = styled.span`
 //                       </InputAdornment>
 //                     }
 //                 />
+//                 {errors.password && <span style={{ color: "red" }}>This field is required</span>}
+//                 {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}
 //               </FormControl>
-//               <WrapperCheckBox>
-//                 <Checkbox defaultChecked {...register("rememberMe")} />
-//                 <span style={{ marginTop: "10px" }}>Remember me</span>
-//               </WrapperCheckBox>
+//
+//               {forRegister && (
+//                   <FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>
+//                     <InputLabel htmlFor="filled-adornment-password"> REPEAT Password</InputLabel>
+//                     <FilledInput
+//                         {...register("password2", { required: true })}
+//                         id="filled-adornment-password"
+//                         type={showPassword2 ? "text" : "password"}
+//                         endAdornment={
+//                           <InputAdornment position="end">
+//                             <IconButton
+//                                 aria-label="toggle password visibility"
+//                                 onClick={handleClickShowPassword2}
+//                                 onMouseDown={handleMouseDownPassword2}
+//                                 edge="end"
+//                             >
+//                               {showPassword2 ? <VisibilityOff /> : <Visibility />}
+//                             </IconButton>
+//                           </InputAdornment>
+//                         }
+//                     />
+//                     {errors.password2 && <span style={{ color: "red" }}>This field is required</span>}
+//                     {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}
+//                   </FormControl>
+//               )}
+//
+//               {!forRegister && (
+//                   <WrapperCheckBox>
+//                     <Checkbox defaultChecked {...register("rememberMe")} />
+//                     <span style={{ marginTop: "10px" }}>Remember me</span>
+//                   </WrapperCheckBox>
+//               )}
+//
 //               <WrapperForgetPassword>
 //                 <Link to={"/forgotpassword"}>Forgot password?</Link>
 //               </WrapperForgetPassword>
-//               {/*{errors.password && <span>This field is required</span>} //TODO*/}
+//
 //               <TipicalWrapper>
 //                 <Button variant="contained" type="submit">
 //                   Sign in
@@ -334,6 +418,7 @@ const FormWrapper = styled.span`
 // const DontHaveAccount = styled.span`
 //   margin-top: 10px;
 //   padding-bottom: 30px;
+//
 //   & > a {
 //     color: #036ea4;
 //     font-size: 14px;
@@ -342,6 +427,7 @@ const FormWrapper = styled.span`
 //
 // const TipicalWrapper = styled.span`
 //   margin-top: 40px;
+//
 //   & > button {
 //     width: 96%;
 //   }
@@ -375,5 +461,3 @@ const FormWrapper = styled.span`
 //   flex-direction: column;
 //   text-align: center;
 // `;
-
-//------------------------------------------------------------------------

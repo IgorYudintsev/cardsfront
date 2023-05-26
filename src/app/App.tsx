@@ -3,9 +3,10 @@ import { Counter } from "features/counter/Counter";
 import "app/App.css";
 import { useAppDispatch, useAppSelector } from "app/hooks";
 import { appActions } from "app/app.slice";
+import { Header } from "common/componentsBIG/Header";
 
 function App() {
-  const isLoading = useAppSelector((state) => state.app.isLoading);
+  //const isLoading = useAppSelector((state) => state.app.isLoading);
 
   const dispatch = useAppDispatch();
 
