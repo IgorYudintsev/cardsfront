@@ -11,9 +11,10 @@ import InputAdornment from "@mui/material/InputAdornment";
 import IconButton from "@mui/material/IconButton";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
-import Checkbox from "@mui/material/Checkbox";
+import { CheckBox } from "common/componentsSmall/CheckBox";
+import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import { Link } from "react-router-dom";
-import Button from "@mui/material/Button";
+// import Button from "@mui/material/Button";
 import styled from "styled-components";
 import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
 import { TextInput } from "common/componentsSmall/TextInput";
@@ -96,21 +97,14 @@ export const Form: React.FC<PropsType> = (props) => {
               />
             )}
 
-            {!forRegister && (
-              <WrapperCheckBox>
-                <Checkbox defaultChecked {...register("rememberMe")} />
-                <span style={{ marginTop: "10px" }}>Remember me</span>
-              </WrapperCheckBox>
-            )}
+            {!forRegister && <CheckBox name={"rememberMe"} control={control} />}
 
             <WrapperForgetPassword>
               <Link to={"/forgotpassword"}>Forgot password?</Link>
             </WrapperForgetPassword>
 
             <TipicalWrapper>
-              <Button variant="contained" type="submit">
-                Sign in
-              </Button>
+              <ButtonComponent variant={"contained"} control={control} buttonName={"Sign in"} />
             </TipicalWrapper>
 
             <TipicalWrapper>
@@ -162,11 +156,6 @@ const WrapperForgetPassword = styled.span`
     text-decoration: none;
     color: black;
   }
-`;
-
-const WrapperCheckBox = styled.span`
-  display: flex;
-  text-align: left;
 `;
 
 const FormWrapper = styled.span`

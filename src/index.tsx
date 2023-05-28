@@ -9,6 +9,7 @@ import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
 import { Login } from "features/auth/Login";
 import { Header } from "common/componentsBIG/Header";
 import { Register } from "features/auth/Register";
+import { Profile } from "features/packs/Profile";
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,14 @@ const router = createBrowserRouter([
     element: (
       <App disabled={true}>
         <Register />
+      </App>
+    ),
+  },
+  {
+    path: "profile",
+    element: (
+      <App disabled={false}>
+        <Profile />
       </App>
     ),
   },
