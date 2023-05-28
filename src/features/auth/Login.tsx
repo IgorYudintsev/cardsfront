@@ -21,7 +21,7 @@ export const Login = () => {
 
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       <Form title={"Sign in"} callBack={queryLogin} forRegister={false} />
     </div>
   );

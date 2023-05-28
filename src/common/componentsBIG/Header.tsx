@@ -4,7 +4,12 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 
-export const Header = () => {
+type PropsType = {
+  disabled?: boolean;
+};
+
+export const Header: React.FC<PropsType> = (props) => {
+  const { disabled = false } = props;
   const navigate = useNavigate();
 
   const goToRegisterHandler = () => {
@@ -18,7 +23,13 @@ export const Header = () => {
           <img src={incubaIcon} alt="incubaIcon" />
         </Icon>
         <ButtonCase>
-          <Button variant="contained" style={{ marginTop: "10px" }} onClick={goToRegisterHandler}>
+          <Button
+            variant="contained"
+            style={{ marginTop: "10px" }}
+            disabled={disabled}
+            // disabled={disabled === undefined ? false : disabled}
+            onClick={goToRegisterHandler}
+          >
             Sign up
           </Button>
         </ButtonCase>

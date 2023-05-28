@@ -16,9 +16,6 @@ type PasswordTextInputProps = {
   rules?: Record<string, unknown>;
   errors: FieldError | undefined;
   passwordsRequire: boolean;
-  // showPassword: boolean;
-  // handleClickShowPassword: (show: boolean) => void;
-  // handleMouseDownPassword: (event: React.MouseEvent<HTMLButtonElement>) => void;
 };
 
 export const PasswordTextInput: React.FC<PasswordTextInputProps> = (props) => {

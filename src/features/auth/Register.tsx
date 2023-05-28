@@ -37,7 +37,7 @@ export const Register = () => {
 
   return (
     <div>
-      <Header />
+      {/*<Header />*/}
       <Form title={"Sign up"} callBack={queryRegister} forRegister={true} />
     </div>
   );
