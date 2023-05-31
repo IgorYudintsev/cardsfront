@@ -23,21 +23,20 @@ export const Register = () => {
       email: payload.email,
       password: payload.password,
     };
-    // console.log(payload);
+
     dispatch(authThunks.register({ payload: payloadWithoutRememberMe }));
   };
 
   // const registerHandler = () => {
   //   const payload = {
-  //     email: "dollarselephant2@gmail.com",
-  //     password: "123456782",
+  //     email: "dollarselephant2@gmail.com", developeryudintsev@gmail.com
+  //     password: "123456782", 200Dilan-Bars211
   //   };
   //   dispatch(authThunks.register({payload}));
   // };
 
   return (
     <div>
-      {/*<Header />*/}
       <Form title={"Sign up"} callBack={queryRegister} forRegister={true} />
     </div>
   );

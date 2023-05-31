@@ -16,9 +16,17 @@ export const TextInput: React.FC<TextInputProps> = ({ name, control, label, rule
       name={name}
       control={control}
       rules={rules}
+      defaultValue="developeryudintsev@gmail.com"
       render={({ field, fieldState }) => (
         <>
-          <TextField {...field} sx={{ m: 1 }} label={label} error={Boolean(fieldState.error)} variant="filled" />
+          <TextField
+            {...field}
+            sx={{ m: 1 }}
+            label={label}
+            error={Boolean(fieldState.error)}
+            variant="filled"
+            defaultValue={field.value}
+          />
           {errors && <span style={{ color: "red" }}>This field is required</span>}
         </>
       )}

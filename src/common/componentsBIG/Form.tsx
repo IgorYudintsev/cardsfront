@@ -1,22 +1,11 @@
-import React, { useState } from "react";
-import { useAppDispatch } from "app/hooks";
+import React, { ReactNode, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
-import { authThunks } from "features/auth/auth.slice";
 import Paper from "@mui/material/Paper";
-import TextField from "@mui/material/TextField";
-import FormControl from "@mui/material/FormControl";
-import InputLabel from "@mui/material/InputLabel";
-import FilledInput from "@mui/material/FilledInput";
-import InputAdornment from "@mui/material/InputAdornment";
-import IconButton from "@mui/material/IconButton";
-import VisibilityOff from "@mui/icons-material/VisibilityOff";
-import Visibility from "@mui/icons-material/Visibility";
 import { CheckBox } from "common/componentsSmall/CheckBox";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import { Link } from "react-router-dom";
-// import Button from "@mui/material/Button";
 import styled from "styled-components";
-import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
+import { ArgLoginType } from "features/auth/auth.api";
 import { TextInput } from "common/componentsSmall/TextInput";
 import { PasswordTextInput } from "common/componentsSmall/PasswordTextInput";
 
@@ -24,6 +13,7 @@ type PropsType = {
   title: string;
   callBack: (payload: ArgLoginType) => void;
   forRegister: boolean;
+  children?: ReactNode;
 };
 
 export type Inputs = {

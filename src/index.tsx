@@ -10,6 +10,9 @@ import { Login } from "features/auth/Login";
 import { Header } from "common/componentsBIG/Header";
 import { Register } from "features/auth/Register";
 import { Profile } from "features/packs/Profile";
+import { Forgotpassword } from "features/auth/Forgotpassword";
+import { SetNewPassword } from "features/auth/SetNewPassword";
+import { CheckEmail } from "features/auth/CheckEmail";
 
 const router = createBrowserRouter([
   {
@@ -37,6 +40,30 @@ const router = createBrowserRouter([
     element: (
       <App disabled={false}>
         <Profile />
+      </App>
+    ),
+  },
+  {
+    path: "forgot",
+    element: (
+      <App disabled={false}>
+        <Forgotpassword />
+      </App>
+    ),
+  },
+  {
+    path: "newpas/:token",
+    element: (
+      <App disabled={false}>
+        <SetNewPassword />
+      </App>
+    ),
+  },
+  {
+    path: "check",
+    element: (
+      <App disabled={false}>
+        <CheckEmail />
       </App>
     ),
   },
