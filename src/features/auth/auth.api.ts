@@ -8,9 +8,18 @@ export const authApi = {
     return instance.post<ProfileType>("auth/login", payload);
   },
   forget: (payload: ForgetPasswordType) => {
-    console.log(payload);
     return instance.post("https://neko-back.herokuapp.com/2.0/auth/forgot", payload, { withCredentials: true });
   },
+  setNewPas: (payload: SetNewPasType) => {
+    return instance.post("https://neko-back.herokuapp.com/2.0/auth/set-new-password", payload, {
+      withCredentials: true,
+    });
+  },
+};
+
+export type SetNewPasType = {
+  password: string;
+  resetPasswordToken: string | undefined;
 };
 
 export type ForgetPasswordType = {

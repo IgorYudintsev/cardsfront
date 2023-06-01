@@ -1,6 +1,14 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ArgLoginType, ArgRegisterType, authApi, ForgetPasswordType, ProfileType } from "features/auth/auth.api";
+import {
+  ArgLoginType,
+  ArgRegisterType,
+  authApi,
+  ForgetPasswordType,
+  ProfileType,
+  SetNewPasType,
+} from "features/auth/auth.api";
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
+import { SetNewPassword } from "features/auth/SetNewPassword";
 
 const slice = createSlice({
   name: "auth",
@@ -9,6 +17,7 @@ const slice = createSlice({
     registred: false as boolean,
     emailSended: false as boolean,
     email: null as null | string,
+    goToLogin: false as boolean,
   },
   reducers: {
     // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
@@ -25,6 +34,9 @@ const slice = createSlice({
     builder.addCase(forgetpassword.fulfilled, (state, action) => {
       state.emailSended = action.payload.emailSended;
       state.email = action.payload.email;
+    });
+    builder.addCase(setNewPas.fulfilled, (state, action) => {
+      state.goToLogin = action.payload.goToLogin;
     });
   },
 });
@@ -65,75 +77,20 @@ const forgetpassword = createAsyncThunk<{ emailSended: boolean; email: string },
   }
 );
 
+const setNewPas = createAsyncThunk<{ goToLogin: boolean }, SetNewPasType>("auth/setNewPas", async (arg, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  try {
+    console.log(arg);
+    await authApi.setNewPas(arg);
+    return { goToLogin: true };
+  } catch (e) {
+    return rejectWithValue(null);
+  }
+});
+
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-export const authThunks = { register, login, forgetpassword };
-
-//----------------------------------------------------------------------------------------------------
-
-// import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-// import { ArgLoginType, ArgRegisterType, authApi, ForgetPasswordType, ProfileType } from "features/auth/auth.api";
-// import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
-//
-// const slice = createSlice({
-//   name: "auth",
-//   initialState: {
-//     profile: null as ProfileType | null,
-//     registred: false as boolean,
-//     emailSended: false as boolean
-//   },
-//   reducers: {
-//     // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
-//     //   state.profile = action.payload.profile;
-//     // },
-//   },
-//   extraReducers: (builder) => {
-//     builder.addCase(login.fulfilled, (state, action) => {
-//       state.profile = action.payload.profile;
-//     });
-//     builder.addCase(register.fulfilled, (state, action) => {
-//       state.registred = action.payload.registred;
-//     });
-//   },
-// });
-//
-// const register = createAsyncThunk<{ registred: boolean }, { payload: ArgRegisterType }>(
-//     "auth/register",
-//     async (arg, thunkAPI) => {
-//       const { dispatch, rejectWithValue } = thunkAPI;
-//       try {
-//         let res = await authApi.register(arg.payload);
-//         return { registred: true };
-//         // return console.log(res.data.addedUser);
-//       } catch (e) {
-//         return rejectWithValue(null);
-//       }
-//     }
-// );
-//
-// const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
-//   const { dispatch, rejectWithValue } = thunkAPI;
-//   try {
-//     let res = await authApi.login(arg);
-//     return { profile: res.data };
-//   } catch (e) {
-//     return rejectWithValue(null);
-//   }
-// });
-//
-// const forgetpassword = createAsyncThunk<any, ForgetPasswordType>("auth/forget", async (arg, thunkAPI) => {
-//   const { dispatch, rejectWithValue } = thunkAPI;
-//   try {
-//     let res = await authApi.forget(arg);
-//     return login(res.data);
-//   } catch (e) {
-//     return rejectWithValue(null);
-//   }
-// });
-//
-// export const authReducer = slice.reducer;
-// export const authActions = slice.actions;
-// export const authThunks = { register, login, forgetpassword };
+export const authThunks = { register, login, forgetpassword, setNewPas };
 
 //----------------------------------------------------------------------------------------------------
 
