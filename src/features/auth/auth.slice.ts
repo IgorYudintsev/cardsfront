@@ -8,6 +8,7 @@ const slice = createSlice({
     profile: null as ProfileType | null,
     registred: false as boolean,
     emailSended: false as boolean,
+    email: null as null | string,
   },
   reducers: {
     // setProfile: (state, action: PayloadAction<{ profile: ProfileType }>) => {
@@ -23,6 +24,7 @@ const slice = createSlice({
     });
     builder.addCase(forgetpassword.fulfilled, (state, action) => {
       state.emailSended = action.payload.emailSended;
+      state.email = action.payload.email;
     });
   },
 });
@@ -50,26 +52,13 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/
   }
 });
 
-// const forgetpassword = createAsyncThunk<any, ForgetPasswordType>("auth/forget", async (arg, thunkAPI) => {
-//   const { dispatch, rejectWithValue } = thunkAPI;
-//   try {
-//     let res = await authApi.forget(arg);
-//     // return login(res.data);
-//     return login(res.data);
-//   } catch (e) {
-//     return rejectWithValue(null);
-//   }
-// });
-
-const forgetpassword = createAsyncThunk<{ emailSended: boolean }, ForgetPasswordType>(
+const forgetpassword = createAsyncThunk<{ emailSended: boolean; email: string }, ForgetPasswordType>(
   "auth/forget",
   async (arg, thunkAPI) => {
     const { dispatch, rejectWithValue } = thunkAPI;
     try {
       await authApi.forget(arg);
-      return { emailSended: true };
-      // return login(res.data);
-      //return login(res.data);
+      return { emailSended: true, email: arg.email };
     } catch (e) {
       return rejectWithValue(null);
     }

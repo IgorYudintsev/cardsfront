@@ -9,7 +9,6 @@ export const Forgotpassword = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const emailSended = useAppSelector((state) => state.auth.emailSended);
-  //const [gotoCheckEmail, setGotoCheckEmail] = useState(false);
 
   const queryLogin = (payload: ForgetPasswordType) => {
     dispatch(authThunks.forgetpassword(payload));

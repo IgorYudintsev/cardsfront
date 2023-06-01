@@ -1,13 +1,12 @@
-import React, { ReactNode, useState } from "react";
+import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
-import { CheckBox } from "common/componentsSmall/CheckBox";
-import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
+import { ButtonComponentForm } from "common/componentsSmall/ButtonComponentForm";
 import { Link } from "react-router-dom";
-import styled from "styled-components";
-import { ArgLoginType, ForgetPasswordType } from "features/auth/auth.api";
+import { ForgetPasswordType } from "features/auth/auth.api";
 import { TextInput } from "common/componentsSmall/TextInput";
 import { PasswordTextInput } from "common/componentsSmall/PasswordTextInput";
+import { S } from "./Form_styles";
 
 type PropsType = {
   title: string;
@@ -45,10 +44,10 @@ export const SmallForm: React.FC<PropsType> = (props) => {
   };
 
   return (
-    <Wrapper>
+    <S.Wrapper>
       <Paper elevation={2} style={{ width: "350px" }}>
         <form onSubmit={handleSubmit(onSubmit)}>
-          <FormWrapper>
+          <S.FormWrapper>
             <h2 style={{ fontFamily: "Montserrat" }}>{title}</h2>
 
             {forgot && (
@@ -60,7 +59,7 @@ export const SmallForm: React.FC<PropsType> = (props) => {
                 errors={errors.email}
               />
             )}
-            <OpacitySpan>Enter your email address and we will send you further instructions </OpacitySpan>
+            <S.OpacitySpan>Enter your email address and we will send you further instructions </S.OpacitySpan>
 
             {/*<PasswordTextInput*/}
             {/*  name={"password"}*/}
@@ -71,68 +70,20 @@ export const SmallForm: React.FC<PropsType> = (props) => {
             {/*  passwordsRequire={passwordsRequire}*/}
             {/*/>*/}
 
-            <TipicalWrapper>
-              <ButtonComponent variant={"contained"} control={control} buttonName={"Send Instructions"} />
-            </TipicalWrapper>
+            <S.TipicalWrapper>
+              <ButtonComponentForm variant={"contained"} control={control} buttonName={"Send Instructions"} />
+            </S.TipicalWrapper>
 
-            <TipicalWrapper>
+            <S.TipicalWrapper>
               <span>Did you remember your password?</span>
-            </TipicalWrapper>
+            </S.TipicalWrapper>
 
-            <DontHaveAccount>
+            <S.DontHaveAccount>
               <Link to={"/login"}>Try logging in</Link>
-            </DontHaveAccount>
-          </FormWrapper>
+            </S.DontHaveAccount>
+          </S.FormWrapper>
         </form>
       </Paper>
-    </Wrapper>
+    </S.Wrapper>
   );
 };
-
-const OpacitySpan = styled.span`
-  opacity: 0.5;
-  text-align: left;
-  margin-left: 10px;
-`;
-
-const DontHaveAccount = styled.span`
-  margin-top: 10px;
-  padding-bottom: 30px;
-
-  & > a {
-    color: #036ea4;
-    font-size: 14px;
-  }
-`;
-
-const TipicalWrapper = styled.span`
-  margin-top: 40px;
-
-  & > button {
-    width: 96%;
-  }
-`;
-
-const Wrapper = styled.span`
-  margin-top: 50px;
-  display: flex;
-  justify-content: space-around;
-`;
-
-const WrapperForgetPassword = styled.span`
-  display: flex;
-  justify-content: end;
-  margin-right: 10px;
-  cursor: pointer;
-
-  & > a {
-    text-decoration: none;
-    color: black;
-  }
-`;
-
-const FormWrapper = styled.span`
-  display: flex;
-  flex-direction: column;
-  text-align: center;
-`;

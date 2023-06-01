@@ -3,6 +3,7 @@ import incubaIcon from "assets/icon/incubaIcon.jpg";
 import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
+import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 
 type PropsType = {
   disabled?: boolean;
@@ -23,15 +24,7 @@ export const Header: React.FC<PropsType> = (props) => {
           <img src={incubaIcon} alt="incubaIcon" />
         </Icon>
         <ButtonCase>
-          <Button
-            variant="contained"
-            style={{ marginTop: "10px" }}
-            disabled={disabled}
-            // disabled={disabled === undefined ? false : disabled}
-            onClick={goToRegisterHandler}
-          >
-            Sign up
-          </Button>
+          <ButtonComponent buttonName={"Sign up"} callback={goToRegisterHandler} disabled={disabled} />
         </ButtonCase>
       </Wrapper>
       <LineWithShadow />
@@ -47,6 +40,10 @@ const Wrapper = styled.span`
 
 const ButtonCase = styled.span`
   height: 60px;
+
+  & > button {
+    margin-top: 10px;
+  }
 `;
 
 const Icon = styled.span`

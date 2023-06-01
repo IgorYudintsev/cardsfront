@@ -1,25 +1,19 @@
 import React from "react";
-import { Control, Controller } from "react-hook-form";
 import Button from "@mui/material/Button";
 
-type ButtonProps = {
-  variant: string;
-  control: Control<any>;
+type PropsType = {
   buttonName: string;
+  callback: () => void;
+  disabled?: boolean;
 };
 
-export const ButtonComponent: React.FC<ButtonProps> = ({ control, variant, buttonName }) => {
+export const ButtonComponent: React.FC<PropsType> = ({ buttonName, callback, disabled = false }) => {
+  const onclickHandler = () => {
+    callback();
+  };
   return (
-    <Controller
-      name={variant}
-      control={control}
-      render={({ field, fieldState }) => (
-        <>
-          <Button variant="contained" type="submit">
-            {buttonName}
-          </Button>
-        </>
-      )}
-    />
+    <Button variant="contained" type="submit" onClick={onclickHandler} disabled={disabled}>
+      {buttonName}
+    </Button>
   );
 };
