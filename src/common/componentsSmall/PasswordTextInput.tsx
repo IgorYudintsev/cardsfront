@@ -15,11 +15,12 @@ type PasswordTextInputProps = {
   label: string;
   rules?: Record<string, unknown>;
   errors: FieldError | undefined;
-  passwordsRequire: boolean;
+  passwordsRequire?: boolean;
+  onePasField?: boolean;
 };
 
 export const PasswordTextInput: React.FC<PasswordTextInputProps> = (props) => {
-  const { name, control, label, rules, errors, passwordsRequire } = props;
+  const { name, control, label, rules, errors, passwordsRequire = true, onePasField } = props;
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword((show) => !show);
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -30,6 +31,7 @@ export const PasswordTextInput: React.FC<PasswordTextInputProps> = (props) => {
       name={name}
       control={control}
       rules={rules}
+      defaultValue="200Dilan-Bars211"
       render={({ field, fieldState }) => (
         <FormControl sx={{ m: 1 }} variant="filled" style={{ marginTop: "20px" }}>
           <InputLabel htmlFor="filled-adornment-password">Password</InputLabel>
@@ -50,9 +52,7 @@ export const PasswordTextInput: React.FC<PasswordTextInputProps> = (props) => {
                 </IconButton>
               </InputAdornment>
             }
-            // helperText={fieldState.error ? fieldState.error.message : null}
           />
-          {/*{errors && <span style={{ color: "red" }}>This field is required</span>}*/}
           {errors && <span style={{ color: "red" }}>This field is required</span>}
           {!passwordsRequire && <div style={{ color: "red" }}>Passwords do not match</div>}
         </FormControl>

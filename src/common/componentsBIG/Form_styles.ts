@@ -46,6 +46,7 @@ const FormWrapper = styled.span`
   display: flex;
   flex-direction: column;
   text-align: center;
+  min-height: 310px;
 `;
 
 export const S = {

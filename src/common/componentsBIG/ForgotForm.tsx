@@ -5,13 +5,11 @@ import { ButtonComponentForm } from "common/componentsSmall/ButtonComponentForm"
 import { Link } from "react-router-dom";
 import { ForgetPasswordType } from "features/auth/auth.api";
 import { TextInput } from "common/componentsSmall/TextInput";
-import { PasswordTextInput } from "common/componentsSmall/PasswordTextInput";
 import { S } from "./Form_styles";
 
 type PropsType = {
   title: string;
   callBack: (payload: ForgetPasswordType) => void;
-  forgot: boolean;
 };
 
 export type Inputs = {
@@ -19,8 +17,8 @@ export type Inputs = {
   password?: string;
 };
 
-export const SmallForm: React.FC<PropsType> = (props) => {
-  const { title, callBack, forgot } = props;
+export const ForgotForm: React.FC<PropsType> = (props) => {
+  const { title, callBack } = props;
 
   const {
     control,
@@ -50,25 +48,15 @@ export const SmallForm: React.FC<PropsType> = (props) => {
           <S.FormWrapper>
             <h2 style={{ fontFamily: "Montserrat" }}>{title}</h2>
 
-            {forgot && (
-              <TextInput
-                name="email"
-                label="Email"
-                rules={{ required: "Email is required" }}
-                control={control}
-                errors={errors.email}
-              />
-            )}
-            <S.OpacitySpan>Enter your email address and we will send you further instructions </S.OpacitySpan>
+            <TextInput
+              name="email"
+              label="Email"
+              rules={{ required: "Email is required" }}
+              control={control}
+              errors={errors.email}
+            />
 
-            {/*<PasswordTextInput*/}
-            {/*  name={"password"}*/}
-            {/*  label={"Password"}*/}
-            {/*  rules={{ required: "Password is required" }}*/}
-            {/*  control={control}*/}
-            {/*  errors={errors.password}*/}
-            {/*  passwordsRequire={passwordsRequire}*/}
-            {/*/>*/}
+            <S.OpacitySpan>Enter your email address and we will send you further instructions </S.OpacitySpan>
 
             <S.TipicalWrapper>
               <ButtonComponentForm variant={"contained"} control={control} buttonName={"Send Instructions"} />
