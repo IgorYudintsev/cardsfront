@@ -52,14 +52,6 @@ export const SetnewPassForm: React.FC<PropsType> = (props) => {
             <S.TipicalWrapper>
               <ButtonComponentForm variant={"contained"} control={control} buttonName={"Create new password"} />
             </S.TipicalWrapper>
-
-            {/*<S.TipicalWrapper>*/}
-            {/*  <span>Did you remember your password?</span>*/}
-            {/*</S.TipicalWrapper>*/}
-
-            {/*<S.DontHaveAccount>*/}
-            {/*  <Link to={"/login"}>Try logging in</Link>*/}
-            {/*</S.DontHaveAccount>*/}
           </S.FormWrapper>
         </form>
       </Paper>

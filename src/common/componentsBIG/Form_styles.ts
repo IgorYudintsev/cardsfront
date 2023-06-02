@@ -16,13 +16,18 @@ const DontHaveAccount = styled.span`
   }
 `;
 
-const TipicalWrapper = styled.span`
+const TipicalWrapper = styled.div`
   margin-top: 40px;
 
   & > button {
     width: 96%;
   }
 `;
+
+// const TipicalWrapper = styled.div`
+//   margin-top: 40px;
+//
+// `;
 
 const Wrapper = styled.span`
   margin-top: 50px;
