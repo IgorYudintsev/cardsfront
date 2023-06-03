@@ -7,6 +7,9 @@ export const authApi = {
   login: (payload: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", payload);
   },
+  logout: () => {
+    return instance.delete("auth/me");
+  },
   forget: (payload: ForgetPasswordType) => {
     return instance.post("https://neko-back.herokuapp.com/2.0/auth/forgot", payload, { withCredentials: true });
   },

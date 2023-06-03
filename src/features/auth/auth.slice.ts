@@ -38,6 +38,9 @@ const slice = createSlice({
     builder.addCase(setNewPas.fulfilled, (state, action) => {
       state.goToLogin = action.payload.goToLogin;
     });
+    builder.addCase(logout.fulfilled, (state, action) => {
+      state.goToLogin = action.payload.goToLogin;
+    });
   },
 });
 
@@ -59,6 +62,16 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/
   try {
     let res = await authApi.login(arg);
     return { profile: res.data };
+  } catch (e) {
+    return rejectWithValue(null);
+  }
+});
+
+const logout = createAsyncThunk<{ goToLogin: boolean }, void>("auth/logout", async (arg, thunkAPI) => {
+  const { dispatch, rejectWithValue } = thunkAPI;
+  try {
+    await authApi.logout();
+    return { goToLogin: true };
   } catch (e) {
     return rejectWithValue(null);
   }
@@ -90,7 +103,7 @@ const setNewPas = createAsyncThunk<{ goToLogin: boolean }, SetNewPasType>("auth/
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-export const authThunks = { register, login, forgetpassword, setNewPas };
+export const authThunks = { register, login, forgetpassword, setNewPas, logout };
 
 //----------------------------------------------------------------------------------------------------
 
