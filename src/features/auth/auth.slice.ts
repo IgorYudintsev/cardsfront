@@ -6,6 +6,7 @@ import {
   ForgetPasswordType,
   ProfileType,
   SetNewPasType,
+  UpdateProfileType,
 } from "features/auth/auth.api";
 import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
 import { SetNewPassword } from "features/auth/SetNewPassword";
@@ -41,6 +42,9 @@ const slice = createSlice({
     builder.addCase(logout.fulfilled, (state, action) => {
       state.goToLogin = action.payload.goToLogin;
     });
+    builder.addCase(updateProfile.fulfilled, (state, action) => {
+      state.profile = action.payload.profile;
+    });
   },
 });
 
@@ -56,7 +60,6 @@ const register = createAsyncThunk<{ registred: boolean }, { payload: ArgRegister
     }
   }
 );
-
 const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
@@ -66,7 +69,6 @@ const login = createAppAsyncThunk<{ profile: ProfileType }, ArgLoginType>("auth/
     return rejectWithValue(null);
   }
 });
-
 const logout = createAsyncThunk<{ goToLogin: boolean }, void>("auth/logout", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
@@ -76,7 +78,6 @@ const logout = createAsyncThunk<{ goToLogin: boolean }, void>("auth/logout", asy
     return rejectWithValue(null);
   }
 });
-
 const forgetpassword = createAsyncThunk<{ emailSended: boolean; email: string }, ForgetPasswordType>(
   "auth/forget",
   async (arg, thunkAPI) => {
@@ -89,7 +90,6 @@ const forgetpassword = createAsyncThunk<{ emailSended: boolean; email: string },
     }
   }
 );
-
 const setNewPas = createAsyncThunk<{ goToLogin: boolean }, SetNewPasType>("auth/setNewPas", async (arg, thunkAPI) => {
   const { dispatch, rejectWithValue } = thunkAPI;
   try {
@@ -101,9 +101,23 @@ const setNewPas = createAsyncThunk<{ goToLogin: boolean }, SetNewPasType>("auth/
   }
 });
 
+const updateProfile = createAsyncThunk<{ profile: ProfileType }, { payload: UpdateProfileType }>(
+  "auth/updateProfile",
+  async (arg, thunkAPI) => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    try {
+      const res = await authApi.updateProfile(arg.payload);
+      console.log(res.data.updatedUser);
+      return { profile: res.data.updatedUser };
+    } catch (e) {
+      return rejectWithValue(null);
+    }
+  }
+);
+
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-export const authThunks = { register, login, forgetpassword, setNewPas, logout };
+export const authThunks = { register, login, forgetpassword, setNewPas, logout, updateProfile };
 
 //----------------------------------------------------------------------------------------------------
 

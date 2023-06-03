@@ -19,6 +19,14 @@ export const Profile = () => {
     dispatch(authThunks.logout());
   };
 
+  const updateHandler = () => {
+    const payload = {
+      name: "Yudzintsau2",
+      //avatar?: string;
+    };
+    dispatch(authThunks.updateProfile({ payload }));
+  };
+
   if (goToLogin) {
     navigate("/login");
   }
@@ -44,6 +52,8 @@ export const Profile = () => {
           <S.TipicalWrapper>
             <ButtonComponent buttonName={"Log out"} callback={logOuthandler} disabled={false} />
           </S.TipicalWrapper>
+
+          <button onClick={updateHandler}>update</button>
 
           <S.TipicalWrapper>
             <span>Did you remember your password?</span>

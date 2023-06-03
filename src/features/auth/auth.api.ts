@@ -18,6 +18,20 @@ export const authApi = {
       withCredentials: true,
     });
   },
+  updateProfile: (payload: UpdateProfileType) => {
+    return instance.put<UpdateProfileResponceType>("auth/me", payload);
+  },
+};
+
+export type UpdateProfileResponceType = {
+  token: string;
+  tokenDeathTime: number;
+  updatedUser: ProfileType;
+};
+
+export type UpdateProfileType = {
+  name?: string;
+  avatar?: string;
 };
 
 export type SetNewPasType = {
