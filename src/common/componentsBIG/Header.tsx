@@ -4,6 +4,10 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
+import { useAppSelector } from "app/hooks";
+import panIcon from "assets/icon/pan.jpg";
+import Avatar from "@mui/material/Avatar";
+import ava from "assets/icon/ava.jpg";
 
 type PropsType = {
   disabled?: boolean;
@@ -11,6 +15,7 @@ type PropsType = {
 
 export const Header: React.FC<PropsType> = (props) => {
   const { disabled = false } = props;
+  const profile = useAppSelector((state) => state.auth.profile);
   const navigate = useNavigate();
 
   const goToRegisterHandler = () => {
@@ -23,14 +28,27 @@ export const Header: React.FC<PropsType> = (props) => {
         <Icon>
           <img src={incubaIcon} alt="incubaIcon" />
         </Icon>
-        <ButtonCase>
-          <ButtonComponent buttonName={"Sign up"} callback={goToRegisterHandler} disabled={disabled} />
-        </ButtonCase>
+
+        {profile ? (
+          <LoginWrapper>
+            <span style={{ marginRight: "10px" }}>{profile.name}</span>
+            <Avatar style={{ marginTop: "-7px" }} alt="Remy Sharp" src={ava} sx={{ width: 40, height: 40 }} />
+          </LoginWrapper>
+        ) : (
+          <ButtonCase>
+            <ButtonComponent buttonName={"Sign up"} callback={goToRegisterHandler} disabled={disabled} />
+          </ButtonCase>
+        )}
       </Wrapper>
       <LineWithShadow />
     </>
   );
 };
+
+const LoginWrapper = styled.span`
+  margin-top: 18px;
+  display: flex;
+`;
 
 const Wrapper = styled.span`
   height: 60px;

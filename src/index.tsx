@@ -5,9 +5,8 @@ import reportWebVitals from "./reportWebVitals";
 import { Provider } from "react-redux";
 import App from "app/App";
 import { store } from "app/store";
-import { createBrowserRouter, Link, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Login } from "features/auth/Login";
-import { Header } from "common/componentsBIG/Header";
 import { Register } from "features/auth/Register";
 import { Profile } from "features/packs/Profile";
 import { Forgotpassword } from "features/auth/Forgotpassword";
@@ -17,10 +16,10 @@ import { CheckEmail } from "features/auth/CheckEmail";
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Header />,
+    element: <Navigate to="login" replace />,
   },
   {
-    path: "login",
+    path: "/login",
     element: (
       <App>
         <Login />

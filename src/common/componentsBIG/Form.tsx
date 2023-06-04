@@ -90,11 +90,11 @@ export const Form: React.FC<PropsType> = (props) => {
             {!forRegister && <CheckBox name={"rememberMe"} control={control} />}
 
             <S.WrapperForgetPassword>
-              <Link to={"/forgotpassword"}>Forgot password?</Link>
+              <Link to={"/forgot"}>Forgot password?</Link>
             </S.WrapperForgetPassword>
 
             <S.TipicalWrapper>
-              <ButtonComponentForm variant={"contained"} control={control} buttonName={"Sign in"} />
+              <ButtonComponentForm variant={"contained"} control={control} buttonName={title} />
             </S.TipicalWrapper>
 
             <S.TipicalWrapper>
@@ -102,7 +102,7 @@ export const Form: React.FC<PropsType> = (props) => {
             </S.TipicalWrapper>
 
             <S.DontHaveAccount>
-              <Link to={"/register"}>Sign up</Link>
+              {title === "Sign up" ? <Link to={"/login"}>Sign in</Link> : <Link to={"/register"}>Sign up</Link>}
             </S.DontHaveAccount>
           </S.FormWrapper>
         </form>
