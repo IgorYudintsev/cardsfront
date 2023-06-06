@@ -5,7 +5,7 @@ export const authApi = {
     return instance.post<RegisterResponseType>("auth/register", payload);
   },
   login: (payload: ArgLoginType) => {
-    return instance.post<ProfileType>("auth/login", payload);
+    return instance.post<ProfileType>("auth/login", payload).then((res) => res.data);
   },
   logout: () => {
     return instance.delete("auth/me");

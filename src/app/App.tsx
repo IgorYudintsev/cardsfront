@@ -41,6 +41,8 @@ export default App;
 // прописываем в терминале:   echo {}> .prettierrc.json
 //в файле:
 
+// yarn add react-toastify  -для обработки ошибок
+
 //-----------------------------------------------------------------------
 
 // import React, { useEffect } from "react";

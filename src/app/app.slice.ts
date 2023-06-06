@@ -13,9 +13,10 @@ const slice = createSlice({
   initialState: appInitialState,
   reducers: {
     setIsLoading: (state, action: PayloadAction<{ isLoading: boolean }>) => {
-      // Логику в подредьюсерах пишем мутабельным образом,
-      // т.к. иммутабельность достигается благодаря immer.js
       state.isLoading = action.payload.isLoading;
+    },
+    setError: (state, action: PayloadAction<{ error: string | null }>) => {
+      state.error = action.payload.error;
     },
   },
 });

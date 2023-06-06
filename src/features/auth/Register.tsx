@@ -24,7 +24,7 @@ export const Register = () => {
       password: payload.password,
     };
 
-    dispatch(authThunks.register({ payload: payloadWithoutRememberMe }));
+    dispatch(authThunks.register(payloadWithoutRememberMe));
   };
 
   // const registerHandler = () => {
