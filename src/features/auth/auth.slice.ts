@@ -29,11 +29,6 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      // .addCase(login.fulfilled, (state, action) => {
-      //   // debugger;
-      //   state.profile = action.payload.profile;
-      // })
-
       .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload;
       })
@@ -42,13 +37,8 @@ const slice = createSlice({
       // });
 
       .addCase(register.fulfilled, (state, action) => {
-        state.registred = action.payload.registred;
+        state.registred = true;
       })
-      // .addCase(register.fulfilled, (state, action) => {
-      //   //state.profile = action.payload
-      //   //console.log(state, action);
-      // })
-
       .addCase(forgetpassword.fulfilled, (state, action) => {
         state.emailSended = action.payload.emailSended;
         state.email = action.payload.email;
@@ -66,27 +56,26 @@ const slice = createSlice({
   },
 });
 
-// const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType, thunkAPI) => {
-//   await thunkTryCatch(thunkAPI, async () => {
-//     let res = await authApi.register(arg);
-//     console.log("register", res);
-//   });
-// });
+// const _register = createAppAsyncThunk<{ registred: boolean }, ArgRegisterType>(
+//   "auth/register",
+//   async (arg, thunkAPI) => {
+//     const { dispatch, rejectWithValue } = thunkAPI;
+//     try {
+//       let res = await authApi.register(arg);
+//       return { registred: true };
+//     } catch (e: any) {
+//       const error = e.response ? e.response.data.error : e.message;
+//       dispatch(appActions.setError({ error }));
+//       return rejectWithValue(null);
+//     }
+//   }
+// );
 
-const register = createAppAsyncThunk<{ registred: boolean }, ArgRegisterType>(
-  "auth/register",
-  async (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    try {
-      let res = await authApi.register(arg);
-      return { registred: true };
-    } catch (e: any) {
-      const error = e.response ? e.response.data.error : e.message;
-      dispatch(appActions.setError({ error }));
-      return rejectWithValue(null);
-    }
-  }
-);
+const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType, thunkAPI) => {
+  await thunkTryCatch(thunkAPI, async () => {
+    await authApi.register(arg);
+  });
+});
 
 const login = createAppAsyncThunk<ProfileType, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
