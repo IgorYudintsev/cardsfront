@@ -19,7 +19,7 @@ export const authApi = {
     });
   },
   updateProfile: (payload: UpdateProfileType) => {
-    return instance.put<UpdateProfileResponceType>("auth/me", payload);
+    return instance.put<UpdateProfileResponceType>("auth/me", payload).then((res) => res.data.updatedUser);
   },
 };
 

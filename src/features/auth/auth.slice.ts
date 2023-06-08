@@ -40,6 +40,7 @@ const slice = createSlice({
         state.registred = true;
       })
       .addCase(forgetpassword.fulfilled, (state, action) => {
+        debugger;
         state.emailSended = action.payload.emailSended;
         state.email = action.payload.email;
       })
@@ -51,7 +52,8 @@ const slice = createSlice({
       //   state.goToLogin = action.payload.goToLogin;
       // });
       .addCase(updateProfile.fulfilled, (state, action) => {
-        state.profile = action.payload.profile;
+        debugger;
+        state.profile = action.payload;
       });
   },
 });
@@ -74,12 +76,6 @@ const slice = createSlice({
 const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType, thunkAPI) => {
   await thunkTryCatch(thunkAPI, async () => {
     await authApi.register(arg);
-  });
-});
-
-const login = createAppAsyncThunk<ProfileType, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
-  return thunkTryCatch(thunkAPI, async () => {
-    return await authApi.login(arg);
   });
 });
 
@@ -112,53 +108,95 @@ const login = createAppAsyncThunk<ProfileType, ArgLoginType>("auth/login", async
 //   }
 // });
 
-const logout = createAsyncThunk<void, void>("auth/logout", async (arg, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    await authApi.logout();
-    dispatch(authActions.setGoToLogin({ goToLogin: true }));
-    // return { goToLogin: true };   //раньше шло в экстраредюсеры, но из-за дублирования кода пришлось избавиться
-  } catch (e) {
-    return rejectWithValue(null);
-  }
-});
-const forgetpassword = createAsyncThunk<{ emailSended: boolean; email: string }, ForgetPasswordType>(
-  "auth/forget",
-  async (arg, thunkAPI) => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    try {
-      await authApi.forget(arg);
-      return { emailSended: true, email: arg.email };
-    } catch (e) {
-      return rejectWithValue(null);
-    }
-  }
-);
-const setNewPas = createAsyncThunk<void, SetNewPasType>("auth/setNewPas", async (arg, thunkAPI) => {
-  const { dispatch, rejectWithValue } = thunkAPI;
-  try {
-    console.log(arg);
-    await authApi.setNewPas(arg);
-    dispatch(authActions.setGoToLogin({ goToLogin: true }));
-    //return { goToLogin: true }; //раньше шло в экстраредюсеры, но из-за дублирования кода пришлось избавиться
-  } catch (e) {
-    return rejectWithValue(null);
-  }
+const login = createAppAsyncThunk<ProfileType, ArgLoginType>("auth/login", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
+    return await authApi.login(arg);
+  });
 });
 
-const updateProfile = createAsyncThunk<{ profile: ProfileType }, { payload: UpdateProfileType }>(
-  "auth/updateProfile",
-  async (arg, thunkAPI) => {
+const logout = createAppAsyncThunk<void, void>("auth/logout", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
     const { dispatch, rejectWithValue } = thunkAPI;
-    try {
-      const res = await authApi.updateProfile(arg.payload);
-      console.log(res.data.updatedUser);
-      return { profile: res.data.updatedUser };
-    } catch (e) {
-      return rejectWithValue(null);
-    }
+    await authApi.logout();
+    dispatch(authActions.setGoToLogin({ goToLogin: true }));
+  });
+});
+
+// const logout = createAsyncThunk<void, void>("auth/logout", async (arg, thunkAPI) => {
+//   const { dispatch, rejectWithValue } = thunkAPI;
+//   try {
+//     await authApi.logout();
+//     dispatch(authActions.setGoToLogin({ goToLogin: true }));
+//     // return { goToLogin: true };   //раньше шло в экстраредюсеры, но из-за дублирования кода пришлось избавиться
+//   } catch (e) {
+//     return rejectWithValue(null);
+//   }
+// });
+
+const forgetpassword = createAppAsyncThunk<{ emailSended: boolean; email: string }, ForgetPasswordType>(
+  "auth/forget",
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      await authApi.forget(arg);
+      return { emailSended: true, email: arg.email };
+    });
   }
 );
+
+// const forgetpassword = createAsyncThunk<{ emailSended: boolean; email: string }, ForgetPasswordType>(
+//   "auth/forget",
+//   async (arg, thunkAPI) => {
+//     const { dispatch, rejectWithValue } = thunkAPI;
+//     try {
+//       await authApi.forget(arg);
+//       return { emailSended: true, email: arg.email };
+//     } catch (e) {
+//       return rejectWithValue(null);
+//     }
+//   }
+// );
+
+const setNewPas = createAppAsyncThunk<void, SetNewPasType>("auth/setNewPas", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    await authApi.setNewPas(arg);
+    dispatch(authActions.setGoToLogin({ goToLogin: true }));
+  });
+});
+
+// const setNewPas = createAsyncThunk<void, SetNewPasType>("auth/setNewPas", async (arg, thunkAPI) => {
+//   const { dispatch, rejectWithValue } = thunkAPI;
+//   try {
+//     console.log(arg);
+//     await authApi.setNewPas(arg);
+//     dispatch(authActions.setGoToLogin({ goToLogin: true }));
+//     //return { goToLogin: true }; //раньше шло в экстраредюсеры, но из-за дублирования кода пришлось избавиться
+//   } catch (e) {
+//     return rejectWithValue(null);
+//   }
+// });
+
+const updateProfile = createAppAsyncThunk<ProfileType, { payload: UpdateProfileType }>(
+  "auth/updateProfile",
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      return await authApi.updateProfile(arg.payload);
+    });
+  }
+);
+
+// const updateProfile = createAsyncThunk<{ profile: ProfileType }, { payload: UpdateProfileType }>(
+//   "auth/updateProfile",
+//   async (arg, thunkAPI) => {
+//     const { dispatch, rejectWithValue } = thunkAPI;
+//     try {
+//       const res = await authApi.updateProfile(arg.payload);
+//       return { profile: res.data.updatedUser };
+//     } catch (e) {
+//       return rejectWithValue(null);
+//     }
+//   }
+// );
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
