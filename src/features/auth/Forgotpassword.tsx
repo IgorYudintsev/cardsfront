@@ -1,9 +1,9 @@
 import React, { useState } from "react";
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import { ForgotForm } from "common/componentsBIG/ForgotForm";
 import { ForgetPasswordType } from "features/auth/auth.api";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 export const Forgotpassword = () => {
   const dispatch = useAppDispatch();

@@ -1,9 +1,10 @@
 import React from "react";
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import { Form } from "common/componentsBIG/Form";
 import { ArgLoginType } from "features/auth/auth.api";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { toast } from "react-toastify";
 
 export const Login = () => {
   const navigate = useNavigate();
@@ -15,7 +16,16 @@ export const Login = () => {
   }
 
   const queryLogin = (payload: ArgLoginType) => {
-    dispatch(authThunks.login(payload));
+    //dispatch(authThunks.login(payload));
+    //к каждой санке можно прикрутить then
+    dispatch(authThunks.login(payload))
+      .unwrap() //благодаря unwrap() -мы отрабатываем положительные или отрицательные кейсы
+      .then((res) => {
+        toast.success("Вы успешно залогинились");
+      })
+      .catch((err) => {
+        // toast.error("Залогиниться не удалось");
+      });
   };
 
   return (

@@ -6,8 +6,8 @@ import Paper from "@mui/material/Paper";
 import { TextInput } from "common/componentsSmall/TextInput";
 import { ButtonComponentForm } from "common/componentsSmall/ButtonComponentForm";
 import { Link, useNavigate } from "react-router-dom";
-import { useAppSelector } from "app/hooks";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
+import { useAppSelector } from "common/hooks";
 
 export const CheckEmail = () => {
   const navigate = useNavigate();

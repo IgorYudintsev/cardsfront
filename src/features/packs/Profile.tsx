@@ -6,10 +6,11 @@ import Avatar from "@mui/material/Avatar";
 import { Link, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
-import { useAppDispatch, useAppSelector } from "app/hooks";
+// import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import panIcon from "assets/icon/pan.jpg";
 import TextField from "@mui/material/TextField";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 export const Profile = () => {
   const profile = useAppSelector((state) => state.auth.profile);

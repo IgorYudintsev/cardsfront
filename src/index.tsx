@@ -14,6 +14,8 @@ import { SetNewPassword } from "features/auth/SetNewPassword";
 import { CheckEmail } from "features/auth/CheckEmail";
 import "react-toastify/dist/ReactToastify.css";
 import { GlobalError } from "common/componentsSmall/GlobalError";
+import { ProtectedRoute } from "common/componentsSmall/ProtectedRoute";
+import { Header } from "common/componentsBIG/Header";
 
 const router = createBrowserRouter([
   {
@@ -33,14 +35,6 @@ const router = createBrowserRouter([
     element: (
       <App disabled={true}>
         <Register />
-      </App>
-    ),
-  },
-  {
-    path: "profile",
-    element: (
-      <App disabled={false}>
-        <Profile />
       </App>
     ),
   },
@@ -66,6 +60,24 @@ const router = createBrowserRouter([
       <App disabled={false}>
         <CheckEmail />
       </App>
+    ),
+  },
+  // {
+  //   path: "profile",
+  //   element: (
+  //     <App disabled={false}>
+  //       <Profile />
+  //     </App>
+  //   ),
+  // },
+  {
+    path: "profile",
+    element: (
+      <ProtectedRoute>
+        <App disabled={false}>
+          <Profile />
+        </App>
+      </ProtectedRoute>
     ),
   },
 ]);

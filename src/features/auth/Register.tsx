@@ -1,10 +1,9 @@
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
-import { Form, Inputs } from "common/componentsBIG/Form";
-import { Header } from "common/componentsBIG/Header";
+import { Form } from "common/componentsBIG/Form";
 import React from "react";
-import { ArgLoginType, ArgRegisterType } from "features/auth/auth.api";
+import { ArgLoginType } from "features/auth/auth.api";
 import { useNavigate } from "react-router-dom";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 export const Register = () => {
   const navigate = useNavigate();

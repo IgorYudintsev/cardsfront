@@ -4,10 +4,10 @@ import styled from "styled-components";
 import Button from "@mui/material/Button";
 import { useNavigate } from "react-router-dom";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
-import { useAppSelector } from "app/hooks";
 import panIcon from "assets/icon/pan.jpg";
 import Avatar from "@mui/material/Avatar";
 import ava from "assets/icon/ava.jpg";
+import { useAppSelector } from "common/hooks";
 
 type PropsType = {
   disabled?: boolean;

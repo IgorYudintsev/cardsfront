@@ -1,9 +1,8 @@
-import React, { ReactNode, useEffect } from "react";
-import { Counter } from "features/counter/Counter";
+import React, { ReactNode } from "react";
 import "app/App.css";
-import { useAppDispatch, useAppSelector } from "app/hooks";
-import { appActions } from "app/app.slice";
 import { Header } from "common/componentsBIG/Header";
+import { LinearProgress } from "@mui/material";
+import { useAppSelector } from "common/hooks";
 
 type AppPropsType = {
   children: ReactNode;
@@ -12,21 +11,19 @@ type AppPropsType = {
 
 const App: React.FC<AppPropsType> = (props) => {
   const { children, disabled } = props;
-  //const isLoading = useAppSelector((state) => state.app.isLoading);
+  const isLoading = useAppSelector((state) => state.app.isLoading);
 
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    setTimeout(() => {
-      dispatch(appActions.setIsLoading({ isLoading: false }));
-    }, 3000);
-  }, []);
+  // useEffect(() => {
+  //   setTimeout(() => {
+  //     dispatch(appActions.setIsLoading({ isLoading: false }));
+  //   }, 3000);
+  // }, []);
 
   return (
     <div className="App">
       <Header disabled={disabled} />
+      {isLoading && <LinearProgress />}
       {children}
-      {/*{isLoading && <h1>Loader...</h1>}*/}
       {/*<Counter />*/}
     </div>
   );

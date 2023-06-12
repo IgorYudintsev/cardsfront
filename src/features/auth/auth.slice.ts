@@ -1,4 +1,4 @@
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import {
   ArgLoginType,
   ArgRegisterType,
@@ -8,9 +8,8 @@ import {
   SetNewPasType,
   UpdateProfileType,
 } from "features/auth/auth.api";
-import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
-import { appActions } from "app/app.slice";
-import { thunkTryCatch } from "common/componentsSmall/thunk-try-catch";
+//import { createAppAsyncThunk } from "common/utils/createAppAsyncThunk";
+import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 
 const slice = createSlice({
   name: "auth",
@@ -52,7 +51,6 @@ const slice = createSlice({
       //   state.goToLogin = action.payload.goToLogin;
       // });
       .addCase(updateProfile.fulfilled, (state, action) => {
-        debugger;
         state.profile = action.payload;
       });
   },

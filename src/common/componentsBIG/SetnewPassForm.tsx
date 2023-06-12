@@ -2,9 +2,6 @@ import React from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Paper from "@mui/material/Paper";
 import { ButtonComponentForm } from "common/componentsSmall/ButtonComponentForm";
-import { Link } from "react-router-dom";
-import { ForgetPasswordType, SetNewPasType } from "features/auth/auth.api";
-import { TextInput } from "common/componentsSmall/TextInput";
 import { PasswordTextInput } from "common/componentsSmall/PasswordTextInput";
 import { S } from "./Form_styles";
 

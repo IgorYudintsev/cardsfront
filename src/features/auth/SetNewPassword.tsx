@@ -1,9 +1,9 @@
 import React from "react";
 import { useNavigate, useParams } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "app/hooks";
 import { authThunks } from "features/auth/auth.slice";
 import { SetNewPasType } from "features/auth/auth.api";
 import { SetnewPassForm } from "common/componentsBIG/SetnewPassForm";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 
 export const SetNewPassword = () => {
   const param = useParams();
