@@ -16,6 +16,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { GlobalError } from "common/componentsSmall/GlobalError";
 import { ProtectedRoute } from "common/componentsSmall/ProtectedRoute";
 import { Header } from "common/componentsBIG/Header";
+import { Cards } from "features/packs/Cards";
 
 const router = createBrowserRouter([
   {
@@ -78,6 +79,14 @@ const router = createBrowserRouter([
           <Profile />
         </App>
       </ProtectedRoute>
+    ),
+  },
+  {
+    path: "cards",
+    element: (
+      <App disabled={false}>
+        <Cards />
+      </App>
     ),
   },
 ]);

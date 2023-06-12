@@ -1,9 +1,9 @@
 import { useAppSelector } from "common/hooks";
-import { Route, Navigate } from "react-router-dom";
-import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
+import { ReactComponentElement } from "react";
 
 type PropsType = {
-  children: any;
+  children: ReactComponentElement<any>;
 };
 
 export const ProtectedRoute: React.FC<PropsType> = ({ children }) => {
