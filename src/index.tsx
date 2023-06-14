@@ -8,7 +8,7 @@ import { store } from "app/store";
 import { createBrowserRouter, Navigate, RouterProvider } from "react-router-dom";
 import { Login } from "features/auth/Login";
 import { Register } from "features/auth/Register";
-import { Profile } from "features/packs/Profile";
+import { Profile } from "features/auth/Profile";
 import { Forgotpassword } from "features/auth/Forgotpassword";
 import { SetNewPassword } from "features/auth/SetNewPassword";
 import { CheckEmail } from "features/auth/CheckEmail";
@@ -16,7 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { GlobalError } from "common/componentsSmall/GlobalError";
 import { ProtectedRoute } from "common/componentsSmall/ProtectedRoute";
 import { Header } from "common/componentsBIG/Header";
-import { Cards } from "features/packs/Cards";
+import { Cards } from "features/cards/Cards";
+import { Packs } from "features/packs/Packs";
 
 const router = createBrowserRouter([
   {
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "register",
+    path: "/register",
     element: (
       <App disabled={true}>
         <Register />
@@ -40,7 +41,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "forgot",
+    path: "/forgot",
     element: (
       <App disabled={false}>
         <Forgotpassword />
@@ -56,7 +57,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "check",
+    path: "/check",
     element: (
       <App disabled={false}>
         <CheckEmail />
@@ -72,7 +73,7 @@ const router = createBrowserRouter([
   //   ),
   // },
   {
-    path: "profile",
+    path: "/profile",
     element: (
       <ProtectedRoute>
         <App disabled={false}>
@@ -82,7 +83,17 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "cards",
+    path: "/packs",
+    element: (
+      <ProtectedRoute>
+        <App disabled={false}>
+          <Packs />
+        </App>
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: "/cards",
     element: (
       <App disabled={false}>
         <Cards />

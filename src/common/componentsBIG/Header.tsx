@@ -6,9 +6,7 @@ import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import Avatar from "@mui/material/Avatar";
 import ava from "assets/icon/ava.jpg";
 import { useAppSelector } from "common/hooks";
-import IconButton from "@mui/material/IconButton";
-import MenuItem from "@mui/material/MenuItem";
-import Menu from "@mui/material/Menu";
+import MenuListComposition from "common/componentsSmall/MenuListComposition";
 
 type PropsType = {
   disabled?: boolean;
@@ -18,17 +16,9 @@ export const Header: React.FC<PropsType> = (props) => {
   const { disabled = false } = props;
   const profile = useAppSelector((state) => state.auth.profile);
   const navigate = useNavigate();
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
 
   const goToRegisterHandler = () => {
     navigate("/register");
-  };
-
-  const handleMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget);
-  };
-  const handleClose = () => {
-    setAnchorEl(null);
   };
 
   return (
@@ -40,40 +30,9 @@ export const Header: React.FC<PropsType> = (props) => {
 
         {profile ? (
           <LoginWrapper>
-            <IconButton size="large" edge="start" color="inherit" aria-label="menu" onClick={handleMenu} sx={{ mr: 2 }}>
-              <NameSpan>{profile.name}</NameSpan>
-              <Avatar style={{ marginTop: "-7px" }} alt="Remy Sharp" src={ava} sx={{ width: 40, height: 40 }} />
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: "top",
-                  horizontal: "left",
-                }}
-                open={Boolean(anchorEl)}
-                onClose={handleClose}
-              >
-                <MenuItem
-                  onClick={() => {
-                    navigate("/cards");
-                  }}
-                >
-                  cards
-                </MenuItem>
-                <MenuItem
-                  onClick={() => {
-                    navigate("/profile");
-                  }}
-                >
-                  Profile
-                </MenuItem>
-              </Menu>
-            </IconButton>
+            <MenuListComposition />
+            {/*<NameSpan>{profile.name}</NameSpan>*/}
+            <Avatar style={{ marginTop: "-7px" }} alt="Remy Sharp" src={ava} sx={{ width: 40, height: 40 }} />
           </LoginWrapper>
         ) : (
           <ButtonCase>
@@ -85,12 +44,6 @@ export const Header: React.FC<PropsType> = (props) => {
     </>
   );
 };
-
-const NameSpan = styled.span`
-  margin-right: 10px;
-  margin-bottom: 10px;
-  font-size: 16px;
-`;
 
 const LoginWrapper = styled.span`
   margin-top: 18px;
