@@ -3,6 +3,8 @@ import { packsApi } from "features/packs/packs.api";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { authThunks } from "features/packs/packs.slice";
 import { Spreadsheet } from "common/componentsBIG/Spreadsheet";
+import styled from "styled-components";
+import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 
 export type HeadersType = {
   name: string;
@@ -25,9 +27,27 @@ export const Packs = () => {
     { name: "actions", align: "center" },
   ];
 
+  const addPackHandler = () => {
+    const payload = {
+      cardsPack: { name: "NEW2" },
+    };
+    dispatch(authThunks.addPack(payload));
+  };
+
   return (
     <div>
+      <HeaderBlock>
+        <h1 style={{ marginTop: "-10px" }}>Packs list</h1>
+        <ButtonComponent buttonName={"Add new pack"} callback={addPackHandler} disabled={false} />
+      </HeaderBlock>
       <Spreadsheet tableName={"PACKS"} packs={packs} headers={headers} />
     </div>
   );
 };
+
+const HeaderBlock = styled.div`
+  margin-top: 20px;
+  height: 35px;
+  display: flex;
+  justify-content: space-around;
+`;

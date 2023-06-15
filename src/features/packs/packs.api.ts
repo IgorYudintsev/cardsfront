@@ -4,12 +4,17 @@ export const packsApi = {
   getPacks: () => {
     return instance.get<GetPacks>("cards/pack?pageCount=10 ");
   },
-  // login: (payload: ArgLoginType) => {
-  //     return instance.post<ProfileType>("auth/login", payload).then((res) => res.data);
+  addPack: (payload: AddPack) => {
+    return instance.post("cards/pack", payload);
+  },
+  // deletePack: (packId: string) => {
+  //   console.log(packId);
+  //   return instance.delete(`cards/pack?id=${packId}`);
   // },
-  // logout: () => {
-  //     return instance.delete("auth/me");
-  // },
+  deletePack: (packId: string) => {
+    console.log(packId);
+    return instance.delete(`cards/pack`, { params: { id: packId } });
+  },
   // forget: (payload: ForgetPasswordType) => {
   //     return instance.post("https://neko-back.herokuapp.com/2.0/auth/forgot", payload, { withCredentials: true });
   // },
@@ -21,6 +26,12 @@ export const packsApi = {
   // updateProfile: (payload: UpdateProfileType) => {
   //     return instance.put<UpdateProfileResponceType>("auth/me", payload).then((res) => res.data.updatedUser);
   // },
+};
+
+export type AddPack = {
+  name: string;
+  deckCover?: "url or base64"; // не обязателен
+  private?: false; // если не отправить будет такой
 };
 
 export type GetPacks = {

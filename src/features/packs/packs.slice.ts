@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { CardPacks, GetPacks, packsApi } from "features/packs/packs.api";
+import { AddPack, CardPacks, GetPacks, packsApi } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import { ArgLoginType, authApi, ProfileType } from "features/auth/auth.api";
 
@@ -33,6 +33,22 @@ const getPacks = createAppAsyncThunk<any>("packs/getPacks", async (arg, thunkAPI
   });
 });
 
+const addPack = createAppAsyncThunk<AddPack, any>("packs/addPack", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    await packsApi.addPack(arg);
+    dispatch(getPacks());
+  });
+});
+
+const deletePack = createAppAsyncThunk<string, any>("packs/deletePack", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
+    const { dispatch, rejectWithValue } = thunkAPI;
+    await packsApi.deletePack(arg);
+    dispatch(getPacks());
+  });
+});
+
 export const packsReducer = slice.reducer;
 export const packsActions = slice.actions;
-export const authThunks = { getPacks };
+export const authThunks = { getPacks, addPack, deletePack };

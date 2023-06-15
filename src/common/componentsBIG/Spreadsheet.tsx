@@ -9,6 +9,10 @@ import TableBody from "@mui/material/TableBody";
 import { CardPacks } from "features/packs/packs.api";
 import styled from "styled-components";
 import { HeadersType } from "features/packs/Packs";
+import IconButton from "@mui/material/IconButton";
+import DeleteIcon from "@mui/icons-material/Delete";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { authThunks } from "features/packs/packs.slice";
 
 type PropsType = {
   tableName: string;
@@ -16,6 +20,9 @@ type PropsType = {
   headers: HeadersType[];
 };
 export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
+  const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
+  const dispatch = useAppDispatch();
+
   const cutter = (str: string, cut: number) => {
     if (cut === 13) {
       return str.length > cut ? `${str.slice(0, cut)}...` : str;
@@ -30,6 +37,10 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
       </TableCell>
     );
   });
+
+  const deleteHandler = (id: string) => {
+    dispatch(authThunks.deletePack(id));
+  };
 
   return (
     <>
@@ -48,7 +59,15 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
                 <TableCell align="center">{row.cardsCount}</TableCell>
                 <TableCell align="center">{cutter(row.updated, 10)}</TableCell>
                 <TableCell align="center">{cutter(row.user_name, 13)}</TableCell>
-                <TableCell align="center">icon</TableCell>
+                <TableCell align="center">
+                  {userIDfromProfile === row.user_id ? (
+                    <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  ) : (
+                    ""
+                  )}
+                </TableCell>
               </TableRow>
             ))}
           </TableBody>
