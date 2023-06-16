@@ -13,6 +13,8 @@ import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { authThunks } from "features/packs/packs.slice";
+import EditIcon from "@mui/icons-material/Edit";
+import SchoolIcon from "@mui/icons-material/School";
 
 type PropsType = {
   tableName: string;
@@ -42,6 +44,16 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
     dispatch(authThunks.deletePack(id));
   };
 
+  const updateHandler = (id: string) => {
+    const payload = {
+      cardsPack: {
+        _id: id,
+        name: "UPDATED PACK",
+      },
+    };
+    dispatch(authThunks.updatePack(payload));
+  };
+
   return (
     <>
       <Title>{tableName}</Title>
@@ -60,10 +72,18 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
                 <TableCell align="center">{cutter(row.updated, 10)}</TableCell>
                 <TableCell align="center">{cutter(row.user_name, 13)}</TableCell>
                 <TableCell align="center">
+                  <IconButton aria-label="read" onClick={() => {}}>
+                    <SchoolIcon />
+                  </IconButton>
                   {userIDfromProfile === row.user_id ? (
-                    <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
-                      <DeleteIcon />
-                    </IconButton>
+                    <>
+                      <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
+                        <DeleteIcon />
+                      </IconButton>
+                      <IconButton aria-label="update" onClick={() => updateHandler(row._id)}>
+                        <EditIcon />
+                      </IconButton>
+                    </>
                   ) : (
                     ""
                   )}
