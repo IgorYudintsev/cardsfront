@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AddPack, CardPacks, GetPacks, packsApi, UpdatePack } from "features/packs/packs.api";
+import { AddPack, CardPacks, GetPacks, GetPacksPayload, packsApi, UpdatePack } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import { ArgLoginType, authApi, ProfileType } from "features/auth/auth.api";
 
@@ -25,10 +25,9 @@ const slice = createSlice({
   },
 });
 
-const getPacks = createAppAsyncThunk<any>("packs/getPacks", async (arg, thunkAPI) => {
+const getPacks = createAppAsyncThunk<any, GetPacksPayload>("packs/getPacks", async (arg, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
-    let res = await packsApi.getPacks();
-    console.log(res.data);
+    let res = await packsApi.getPacks(arg);
     return res.data;
   });
 });
@@ -37,7 +36,7 @@ const addPack = createAppAsyncThunk<AddPack, any>("packs/addPack", async (arg, t
   return thunkTryCatch(thunkAPI, async () => {
     const { dispatch, rejectWithValue } = thunkAPI;
     await packsApi.addPack(arg);
-    dispatch(getPacks());
+    dispatch(getPacks({ pageCount: 8 }));
   });
 });
 
@@ -45,7 +44,7 @@ const deletePack = createAppAsyncThunk<string, any>("packs/deletePack", async (a
   return thunkTryCatch(thunkAPI, async () => {
     const { dispatch, rejectWithValue } = thunkAPI;
     await packsApi.deletePack(arg);
-    dispatch(getPacks());
+    dispatch(getPacks({ pageCount: 8 }));
   });
 });
 
@@ -53,10 +52,10 @@ const updatePack = createAppAsyncThunk<UpdatePack, any>("packs/updatePack", asyn
   return thunkTryCatch(thunkAPI, async () => {
     const { dispatch, rejectWithValue } = thunkAPI;
     await packsApi.updatePack(arg);
-    dispatch(getPacks());
+    dispatch(getPacks({ pageCount: 8 }));
   });
 });
 
 export const packsReducer = slice.reducer;
 export const packsActions = slice.actions;
-export const authThunks = { getPacks, addPack, deletePack, updatePack };
+export const packsThunks = { getPacks, addPack, deletePack, updatePack };

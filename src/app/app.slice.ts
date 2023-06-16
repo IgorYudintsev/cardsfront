@@ -49,19 +49,19 @@ const slice = createSlice({
           }
           state.isLoading = false;
         }
-        // (action) => action.type.endsWith("/rejected"),
-        // (state, action) => {
-        //   const err = action.payload as Error | AxiosError<{ error: string }>;
-        //   //    Error-нативная ошибка, к примеру нет свойства у...
-        //   if (isAxiosError(err)) {
-        //     state.error = err.response ? err.response.data.error : err.message;
-        //     //dispatch(appActions.setError({ error }));
-        //   } else {
-        //     state.error = `Native error ${err.message}`;
-        //   }
-        //   state.isLoading = false;
-        // }
       );
+    // (action) => action.type.endsWith("/rejected"),
+    // (state, action) => {
+    //   const err = action.payload as Error | AxiosError<{ error: string }>;
+    //   //    Error-нативная ошибка, к примеру нет свойства у...
+    //   if (isAxiosError(err)) {
+    //     state.error = err.response ? err.response.data.error : err.message;
+    //     //dispatch(appActions.setError({ error }));
+    //   } else {
+    //     state.error = `Native error ${err.message}`;
+    //   }
+    //   state.isLoading = false;
+    // }
   },
 });
 

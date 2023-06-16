@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
-import { packsApi } from "features/packs/packs.api";
+
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { authThunks } from "features/packs/packs.slice";
+import { packsThunks } from "features/packs/packs.slice";
 import { Spreadsheet } from "common/componentsBIG/Spreadsheet";
 import styled from "styled-components";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
@@ -16,7 +16,7 @@ export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.cardPacks);
   useEffect(() => {
     // packsApi.getPacks().then((res) => console.log(res.data));
-    dispatch(authThunks.getPacks());
+    dispatch(packsThunks.getPacks({ pageCount: 8 }));
   }, []);
 
   const headers: HeadersType[] = [
@@ -29,9 +29,9 @@ export const Packs = () => {
 
   const addPackHandler = () => {
     const payload = {
-      cardsPack: { name: "NEW2" },
+      cardsPack: { name: "MYPACK" },
     };
-    dispatch(authThunks.addPack(payload));
+    dispatch(packsThunks.addPack(payload));
   };
 
   return (

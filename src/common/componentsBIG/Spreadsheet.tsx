@@ -12,9 +12,10 @@ import { HeadersType } from "features/packs/Packs";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { authThunks } from "features/packs/packs.slice";
+import { packsThunks } from "features/packs/packs.slice";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
+import { SearchFilter } from "common/componentsBIG/SearchFilter";
 
 type PropsType = {
   tableName: string;
@@ -41,7 +42,7 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
   });
 
   const deleteHandler = (id: string) => {
-    dispatch(authThunks.deletePack(id));
+    dispatch(packsThunks.deletePack(id));
   };
 
   const updateHandler = (id: string) => {
@@ -51,11 +52,12 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
         name: "UPDATED PACK",
       },
     };
-    dispatch(authThunks.updatePack(payload));
+    dispatch(packsThunks.updatePack(payload));
   };
 
   return (
     <>
+      <SearchFilter />
       <Title>{tableName}</Title>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
