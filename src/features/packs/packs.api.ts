@@ -1,13 +1,6 @@
 import { instance } from "common/api/common.api";
 
 export const packsApi = {
-  // getPacks: () => {
-  //   return instance.get<GetPacks>("cards/pack?pageCount=10 ");
-  // },
-  // getPacks: () => {
-  //   return instance.get<GetPacks>("cards/pack", { params: { pageCount: 10 } });
-  // },
-
   getPacks: (payload: GetPacksPayload) => {
     console.log({ ...payload });
     return instance.get<GetPacks>("cards/pack", { params: { ...payload } });

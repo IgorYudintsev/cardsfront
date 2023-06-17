@@ -18,5 +18,7 @@ export const InputWithoutForm: React.FC = (props) => {
     setTitle(e.currentTarget.value);
   };
 
-  return <TextField id="outlined-uncontrolled" label="Search..." defaultValue="" onChange={onChangeHandler} />;
+  return (
+    <TextField size={"small"} id="outlined-uncontrolled" label="Search..." defaultValue="" onChange={onChangeHandler} />
+  );
 };
