@@ -2,7 +2,7 @@ import { instance } from "common/api/common.api";
 
 export const packsApi = {
   getPacks: (payload: GetPacksPayload) => {
-    console.log({ ...payload });
+    // console.log({ ...payload });
     return instance.get<GetPacks>("cards/pack", { params: { ...payload } });
   },
 

@@ -5,6 +5,7 @@ import { packsThunks } from "features/packs/packs.slice";
 import { Spreadsheet } from "common/componentsBIG/Spreadsheet";
 import styled from "styled-components";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
+import { loadState } from "helpers/localStorage";
 
 export type HeadersType = {
   name: string;
@@ -14,9 +15,12 @@ export type HeadersType = {
 export const Packs = () => {
   const dispatch = useAppDispatch();
   const packs = useAppSelector((state) => state.packs.cardPacks);
+  const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   useEffect(() => {
+    console.log(loadState());
     // packsApi.getPacks().then((res) => console.log(res.data));
-    dispatch(packsThunks.getPacks({ pageCount: 8 }));
+    //dispatch(packsThunks.getPacks({ pageCount: 8 }));
+    dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 8 } : { pageCount: 8 }));
   }, []);
 
   const headers: HeadersType[] = [

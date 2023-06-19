@@ -3,7 +3,8 @@ import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import { useEffect } from "react";
 import { packsThunks } from "features/packs/packs.slice";
-import { useAppDispatch } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { localHelper } from "helpers/localStorage";
 
 function valuetext(value: number) {
   return `${value}°C`;
@@ -11,7 +12,7 @@ function valuetext(value: number) {
 
 export default function RangeSlider() {
   const dispatch = useAppDispatch();
-
+  const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const [value, setValue] = React.useState<number[]>([0, 8]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
@@ -20,7 +21,12 @@ export default function RangeSlider() {
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      dispatch(packsThunks.getPacks({ min: value[0], max: value[1], pageCount: value[1] - value[0] }));
+      // dispatch(packsThunks.getPacks({ min: value[0], max: value[1], pageCount: value[1] - value[0] }));
+      dispatch(
+        packsThunks.getPacks(
+          localHelper(userIDfromProfile, { min: value[0], max: value[1], pageCount: value[1] - value[0] })
+        )
+      );
       // dispatch(cardsThunks.getCards({ max,min,pageCount:value[1]-value[0]})); // props.setLoading(false);
     }, 600);
     return () => clearTimeout(timeoutId);

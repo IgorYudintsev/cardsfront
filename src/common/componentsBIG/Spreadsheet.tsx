@@ -16,6 +16,7 @@ import { packsThunks } from "features/packs/packs.slice";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
 import { SearchFilter } from "common/componentsBIG/SearchFilter";
+import { localHelper } from "helpers/localStorage";
 
 type PropsType = {
   tableName: string;
@@ -42,7 +43,7 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
   });
 
   const deleteHandler = (id: string) => {
-    dispatch(packsThunks.deletePack(id));
+    dispatch(packsThunks.deletePack({ idForDelete: id, userID: userIDfromProfile }));
   };
 
   const updateHandler = (id: string) => {
@@ -52,7 +53,7 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
         name: "UPDATED PACK",
       },
     };
-    dispatch(packsThunks.updatePack(payload));
+    dispatch(packsThunks.updatePack({ payload, userID: userIDfromProfile }));
   };
 
   return (
