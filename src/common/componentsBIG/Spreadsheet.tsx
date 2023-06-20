@@ -68,7 +68,7 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
           </TableHead>
           <TableBody>
             {packs.map((row) => (
-              <TableRow key={row.name} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
                 <TableCell component="th" scope="row">
                   {cutter(row.name, 13)}
                 </TableCell>

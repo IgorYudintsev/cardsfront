@@ -35,6 +35,7 @@ const slice = createSlice({
       //   Object.assign(state, action.payload);
       // })
       .addCase(getPacks.fulfilled, (state, action) => {
+        console.log("1");
         Object.assign(state, action.payload);
       });
   },
@@ -84,7 +85,7 @@ const updatePack = createAppAsyncThunk<{ payload: UpdatePack; userID: string }, 
     return thunkTryCatch(thunkAPI, async () => {
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.updatePack(arg.payload);
-      dispatch(packsActions.cleanPacks());
+      // dispatch(packsActions.cleanPacks());
       // console.log(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 });
       dispatch(getPacks(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 }));
     });
