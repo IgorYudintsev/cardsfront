@@ -12,12 +12,12 @@ export const SearchFilter = () => {
   const dispatch = useAppDispatch();
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const allHandler = () => {
-    dispatch(packsActions.cleanPacks());
+    //dispatch(packsActions.cleanPacks());
     deleteState();
     dispatch(packsThunks.getPacks({ pageCount: 8 }));
   };
   const myHandler = () => {
-    dispatch(packsActions.cleanPacks());
+    // dispatch(packsActions.cleanPacks());
     saveState();
     dispatch(packsThunks.getPacks({ user_id: userIDfromProfile }));
   };
@@ -38,7 +38,7 @@ export const SearchFilter = () => {
           variant={!loadState() ? "outlined" : "contained"}
         />
       </div>
-      <RangeSlider />
+      {/*<RangeSlider />*/}
     </MainWrapper>
   );
 };

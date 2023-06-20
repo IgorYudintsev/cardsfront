@@ -39,7 +39,6 @@ const slice = createSlice({
         state.registred = true;
       })
       .addCase(forgetpassword.fulfilled, (state, action) => {
-        debugger;
         state.emailSended = action.payload.emailSended;
         state.email = action.payload.email;
       })

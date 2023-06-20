@@ -47,6 +47,7 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
   };
 
   const updateHandler = (id: string) => {
+    console.log(id);
     const payload = {
       cardsPack: {
         _id: id,

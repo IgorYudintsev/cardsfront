@@ -22,7 +22,6 @@ export const Packs = () => {
   const packs = useAppSelector((state) => state.packs.cardPacks);
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   useEffect(() => {
-    console.log(loadState());
     // packsApi.getPacks().then((res) => console.log(res.data));
     //dispatch(packsThunks.getPacks({ pageCount: 8 }));
     dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 8 } : { pageCount: 8 }));
@@ -40,7 +39,7 @@ export const Packs = () => {
     const payload: PayloadTypeForUpdate = {
       cardsPack: { name: "MYPACK" },
     };
-    dispatch(packsActions.cleanPacks()); //зачищаем стейт прежде чем перерубать
+    //dispatch(packsActions.cleanPacks()); //зачищаем стейт прежде чем перерубать
     // dispatch(packsThunks.addPack(payload));
     dispatch(packsThunks.addPack({ userIDfromProfile: userIDfromProfile, payload }));
   };

@@ -7,20 +7,14 @@ export const packsApi = {
   },
 
   addPack: (payload: { cardsPack: AddPack }) => {
-    console.log(payload);
     return instance.post("cards/pack", payload);
   },
-
-  // addPack: (payload: AddPack) => {
-  //   return instance.post("cards/pack", payload);
-  // },
 
   // deletePack: (packId: string) => {
   //   console.log(packId);
   //   return instance.delete(`cards/pack?id=${packId}`);
   // },
   deletePack: (packId: string) => {
-    console.log(packId);
     return instance.delete(`cards/pack`, { params: { id: packId } });
   },
   updatePack: (payload: UpdatePack) => {
