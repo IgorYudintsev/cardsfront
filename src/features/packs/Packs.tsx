@@ -1,15 +1,20 @@
 import React, { useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsThunks } from "features/packs/packs.slice";
+import { packsActions, packsThunks } from "features/packs/packs.slice";
 import { Spreadsheet } from "common/componentsBIG/Spreadsheet";
 import styled from "styled-components";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import { loadState } from "helpers/localStorage";
+import { AddPack } from "features/packs/packs.api";
 
 export type HeadersType = {
   name: string;
   align: "left" | "center";
+};
+
+export type PayloadTypeForUpdate = {
+  cardsPack: AddPack;
 };
 
 export const Packs = () => {
@@ -32,10 +37,12 @@ export const Packs = () => {
   ];
 
   const addPackHandler = () => {
-    const payload = {
+    const payload: PayloadTypeForUpdate = {
       cardsPack: { name: "MYPACK" },
     };
-    dispatch(packsThunks.addPack(payload));
+    dispatch(packsActions.cleanPacks()); //зачищаем стейт прежде чем перерубать
+    // dispatch(packsThunks.addPack(payload));
+    dispatch(packsThunks.addPack({ userIDfromProfile: userIDfromProfile, payload }));
   };
 
   return (

@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AddPack, CardPacks, GetPacks, GetPacksPayload, packsApi, UpdatePack } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
-import { ArgLoginType, authApi, ProfileType } from "features/auth/auth.api";
 import { loadState } from "helpers/localStorage";
+import { PayloadTypeForUpdate } from "features/packs/Packs";
 
 export const packsInitialState: GetPacks = {
   cardPacks: [] as CardPacks[],
@@ -38,13 +38,22 @@ const getPacks = createAppAsyncThunk<any, GetPacksPayload>("packs/getPacks", asy
   });
 });
 
-const addPack = createAppAsyncThunk<AddPack, any>("packs/addPack", async (arg, thunkAPI) => {
-  return thunkTryCatch(thunkAPI, async () => {
-    const { dispatch, rejectWithValue } = thunkAPI;
-    await packsApi.addPack(arg);
-    dispatch(getPacks({ pageCount: 8 }));
-  });
-});
+const addPack = createAppAsyncThunk<any, { userIDfromProfile: string; payload: { cardsPack: AddPack } }>(
+  "packs/addPack",
+  async (arg, thunkAPI) => {
+    return thunkTryCatch(thunkAPI, async () => {
+      const payload: { cardsPack: AddPack } = arg.payload;
+      console.log(payload);
+      const { dispatch, rejectWithValue } = thunkAPI;
+      await packsApi.addPack(payload);
+      // dispatch(getPacks({ pageCount: 8 }));
+      if (loadState()) {
+        dispatch(packsActions.cleanPacks());
+      }
+      dispatch(getPacks(loadState() ? { user_id: arg.userIDfromProfile, pageCount: 8 } : { pageCount: 8 }));
+    });
+  }
+);
 
 const deletePack = createAppAsyncThunk<string, { idForDelete: string; userID: string }>(
   "packs/deletePack",
@@ -53,8 +62,8 @@ const deletePack = createAppAsyncThunk<string, { idForDelete: string; userID: st
       console.log(arg);
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.deletePack(arg.idForDelete);
-      //свои колоды/не свои
-      dispatch(getPacks(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 }));
+      dispatch(packsActions.cleanPacks()); //чистилка
+      dispatch(getPacks(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 })); //свои колоды/не свои
     });
   }
 );
@@ -65,6 +74,7 @@ const updatePack = createAppAsyncThunk<{ payload: UpdatePack; userID: string }, 
     return thunkTryCatch(thunkAPI, async () => {
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.updatePack(arg.payload);
+      dispatch(packsActions.cleanPacks());
       dispatch(getPacks(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 }));
     });
   }

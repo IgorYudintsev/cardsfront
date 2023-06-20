@@ -25,5 +25,3 @@ export const InputWithoutForm: React.FC = (props) => {
     <TextField size={"small"} id="outlined-uncontrolled" label="Search..." defaultValue="" onChange={onChangeHandler} />
   );
 };
-
-//loadState() ? { user_id: userIDfromProfile,

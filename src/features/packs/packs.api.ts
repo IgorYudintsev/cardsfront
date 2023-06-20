@@ -6,9 +6,15 @@ export const packsApi = {
     return instance.get<GetPacks>("cards/pack", { params: { ...payload } });
   },
 
-  addPack: (payload: AddPack) => {
+  addPack: (payload: { cardsPack: AddPack }) => {
+    console.log(payload);
     return instance.post("cards/pack", payload);
   },
+
+  // addPack: (payload: AddPack) => {
+  //   return instance.post("cards/pack", payload);
+  // },
+
   // deletePack: (packId: string) => {
   //   console.log(packId);
   //   return instance.delete(`cards/pack?id=${packId}`);
@@ -21,15 +27,6 @@ export const packsApi = {
     console.log(payload);
     return instance.put("cards/pack", payload);
   },
-
-  // forget: (payload: ForgetPasswordType) => {
-  //     return instance.post("https://neko-back.herokuapp.com/2.0/auth/forgot", payload, { withCredentials: true });
-  // },
-  // setNewPas: (payload: SetNewPasType) => {
-  //     return instance.post("https://neko-back.herokuapp.com/2.0/auth/set-new-password", payload, {
-  //         withCredentials: true,
-  //     });
-  // },
 };
 
 export type GetPacksPayload = {

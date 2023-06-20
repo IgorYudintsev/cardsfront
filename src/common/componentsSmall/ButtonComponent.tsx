@@ -5,14 +5,20 @@ type PropsType = {
   buttonName: string;
   callback: () => void;
   disabled?: boolean;
+  variant?: "contained" | "outlined";
 };
 
-export const ButtonComponent: React.FC<PropsType> = ({ buttonName, callback, disabled = false }) => {
+export const ButtonComponent: React.FC<PropsType> = ({
+  buttonName,
+  callback,
+  disabled = false,
+  variant = "contained",
+}) => {
   const onclickHandler = () => {
     callback();
   };
   return (
-    <Button variant="contained" type="submit" onClick={onclickHandler} disabled={disabled}>
+    <Button variant={variant} type="submit" onClick={onclickHandler} disabled={disabled}>
       {buttonName}
     </Button>
   );
