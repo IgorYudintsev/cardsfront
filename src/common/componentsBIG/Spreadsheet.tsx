@@ -43,7 +43,6 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
     dispatch(packsThunks.deletePack({ idForDelete: id, userID: userIDfromProfile }));
   };
   const updateHandler = (id: string) => {
-    console.log(id);
     const payload = {
       cardsPack: {
         _id: id,
