@@ -16,7 +16,6 @@ import { packsThunks } from "features/packs/packs.slice";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
 import { SearchFilter } from "common/componentsBIG/SearchFilter";
-import { localHelper } from "helpers/localStorage";
 
 type PropsType = {
   tableName: string;
@@ -33,7 +32,6 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
     }
     return str.length > cut ? `${str.slice(0, cut)}` : str;
   };
-
   const headersData = headers.map((el) => {
     return (
       <TableCell align={el.align}>
@@ -41,11 +39,9 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
       </TableCell>
     );
   });
-
   const deleteHandler = (id: string) => {
     dispatch(packsThunks.deletePack({ idForDelete: id, userID: userIDfromProfile }));
   };
-
   const updateHandler = (id: string) => {
     console.log(id);
     const payload = {
@@ -57,6 +53,34 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
     dispatch(packsThunks.updatePack({ payload, userID: userIDfromProfile }));
   };
 
+  const currentPacks = packs.map((row) => (
+    <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
+      <TableCell component="th" scope="row">
+        {cutter(row.name, 13)}
+      </TableCell>
+      <TableCell align="center">{row.cardsCount}</TableCell>
+      <TableCell align="center">{cutter(row.updated, 10)}</TableCell>
+      <TableCell align="center">{cutter(row.user_name, 13)}</TableCell>
+      <TableCell align="center">
+        <IconButton aria-label="read" onClick={() => {}}>
+          <SchoolIcon />
+        </IconButton>
+        {userIDfromProfile === row.user_id ? (
+          <>
+            <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
+              <DeleteIcon />
+            </IconButton>
+            <IconButton aria-label="update" onClick={() => updateHandler(row._id)}>
+              <EditIcon />
+            </IconButton>
+          </>
+        ) : (
+          ""
+        )}
+      </TableCell>
+    </TableRow>
+  ));
+
   return (
     <>
       <SearchFilter />
@@ -66,37 +90,10 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
           <TableHead>
             <TableRow>{headersData}</TableRow>
           </TableHead>
-          <TableBody>
-            {packs.map((row) => (
-              <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
-                <TableCell component="th" scope="row">
-                  {cutter(row.name, 13)}
-                </TableCell>
-                <TableCell align="center">{row.cardsCount}</TableCell>
-                <TableCell align="center">{cutter(row.updated, 10)}</TableCell>
-                <TableCell align="center">{cutter(row.user_name, 13)}</TableCell>
-                <TableCell align="center">
-                  <IconButton aria-label="read" onClick={() => {}}>
-                    <SchoolIcon />
-                  </IconButton>
-                  {userIDfromProfile === row.user_id ? (
-                    <>
-                      <IconButton aria-label="delete" onClick={() => deleteHandler(row._id)}>
-                        <DeleteIcon />
-                      </IconButton>
-                      <IconButton aria-label="update" onClick={() => updateHandler(row._id)}>
-                        <EditIcon />
-                      </IconButton>
-                    </>
-                  ) : (
-                    ""
-                  )}
-                </TableCell>
-              </TableRow>
-            ))}
-          </TableBody>
+          <TableBody>{currentPacks}</TableBody>
         </Table>
       </TableContainer>
+      {packs.length == 0 && <h1 style={{ textAlign: "center" }}>Empty</h1>}
     </>
   );
 };

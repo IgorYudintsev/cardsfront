@@ -12,18 +12,16 @@ export const SearchFilter = () => {
   const dispatch = useAppDispatch();
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const allHandler = () => {
-    //dispatch(packsActions.cleanPacks());
     deleteState();
     dispatch(packsThunks.getPacks({ pageCount: 8 }));
   };
   const myHandler = () => {
-    // dispatch(packsActions.cleanPacks());
     saveState();
     dispatch(packsThunks.getPacks({ user_id: userIDfromProfile }));
   };
   return (
     <MainWrapper>
-      {/*<InputWithoutForm />*/}
+      <InputWithoutForm />
       <div>
         <ButtonComponent
           buttonName={"My cards"}
@@ -38,10 +36,16 @@ export const SearchFilter = () => {
           variant={!loadState() ? "outlined" : "contained"}
         />
       </div>
-      {/*<RangeSlider />*/}
+      <RangeSlider />
     </MainWrapper>
   );
 };
+
+const ButtonWrapper = styled.div`
+  width: 200px;
+  display: flex;
+  justify-content: space-around;
+`;
 
 const MainWrapper = styled.div`
   margin-top: 20px;

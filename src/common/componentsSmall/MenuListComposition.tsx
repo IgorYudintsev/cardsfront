@@ -50,7 +50,7 @@ export default function MenuListComposition() {
   }, [open]);
 
   return (
-    <Stack direction="row" spacing={2}>
+    <Stack direction="row" spacing={2} style={{ zIndex: "100" }}>
       <div>
         <Button
           ref={anchorRef}

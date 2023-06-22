@@ -18,7 +18,7 @@ export const ButtonComponent: React.FC<PropsType> = ({
     callback();
   };
   return (
-    <Button variant={variant} type="submit" onClick={onclickHandler} disabled={disabled}>
+    <Button style={{ marginLeft: "3px" }} variant={variant} type="submit" onClick={onclickHandler} disabled={disabled}>
       {buttonName}
     </Button>
   );

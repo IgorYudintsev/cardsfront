@@ -18,26 +18,11 @@ export const packsInitialState: GetPacks = {
 const slice = createSlice({
   name: "packs",
   initialState: packsInitialState,
-  reducers: {
-    cleanPacks: (state, action: PayloadAction) => {
-      return (state = packsInitialState);
-    },
-  },
-
+  reducers: {},
   extraReducers: (builder) => {
-    builder
-      //     .addCase(getPacks.fulfilled, (state, action) => {
-      //   //return (state = action.payload);
-      //   // return action.payload;
-      //   // @ts-ignore
-      //
-      //   //return { ...action.payload };
-      //   Object.assign(state, action.payload);
-      // })
-      .addCase(getPacks.fulfilled, (state, action) => {
-        console.log("1");
-        Object.assign(state, action.payload);
-      });
+    builder.addCase(getPacks.fulfilled, (state, action) => {
+      Object.assign(state, action.payload);
+    });
   },
 });
 
@@ -56,11 +41,6 @@ const addPack = createAppAsyncThunk<any, { userIDfromProfile: string; payload: {
       console.log(payload);
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.addPack(payload);
-      // dispatch(getPacks({ pageCount: 8 }));
-      // if (loadState()) {
-      //   dispatch(packsActions.cleanPacks());
-      // }
-      //dispatch(packsActions.cleanPacks());
       dispatch(getPacks(loadState() ? { user_id: arg.userIDfromProfile, pageCount: 8 } : { pageCount: 8 }));
     });
   }
@@ -73,7 +53,6 @@ const deletePack = createAppAsyncThunk<string, { idForDelete: string; userID: st
       console.log(arg);
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.deletePack(arg.idForDelete);
-      //dispatch(packsActions.cleanPacks()); //чистилка
       dispatch(getPacks(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 })); //свои колоды/не свои
     });
   }
@@ -85,8 +64,6 @@ const updatePack = createAppAsyncThunk<{ payload: UpdatePack; userID: string }, 
     return thunkTryCatch(thunkAPI, async () => {
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.updatePack(arg.payload);
-      // dispatch(packsActions.cleanPacks());
-      // console.log(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 });
       dispatch(getPacks(loadState() ? { user_id: arg.userID, pageCount: 8 } : { pageCount: 8 }));
     });
   }
