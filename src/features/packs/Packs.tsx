@@ -7,6 +7,7 @@ import styled from "styled-components";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import { loadState } from "helpers/localStorage";
 import { AddPack } from "features/packs/packs.api";
+import { Pagination } from "common/componentsSmall/Pagination";
 
 export type HeadersType = {
   name: string;
@@ -49,9 +50,16 @@ export const Packs = () => {
         <ButtonComponent buttonName={"Add new pack"} callback={addPackHandler} disabled={false} />
       </HeaderBlock>
       <Spreadsheet tableName={"PACKS"} packs={packs} headers={headers} />
+      <PaginationStyle>
+        <Pagination />
+      </PaginationStyle>
     </div>
   );
 };
+
+const PaginationStyle = styled.div`
+  margin-left: 28%;
+`;
 
 const HeaderBlock = styled.div`
   margin-top: 20px;
