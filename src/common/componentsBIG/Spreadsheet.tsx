@@ -57,10 +57,16 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
       <TableCell component="th" scope="row">
         {cutter(row.name, 13)}
       </TableCell>
-      <TableCell align="center">{row.cardsCount}</TableCell>
-      <TableCell align="center">{cutter(row.updated, 10)}</TableCell>
-      <TableCell align="center">{cutter(row.user_name, 13)}</TableCell>
-      <TableCell align="center">
+      <TableCell size={"small"} align="center">
+        {row.cardsCount}
+      </TableCell>
+      <TableCell size={"small"} align="center">
+        {cutter(row.updated, 10)}
+      </TableCell>
+      <TableCell size={"small"} align="center">
+        {cutter(row.user_name, 13)}
+      </TableCell>
+      <TableCell size={"small"} align="center">
         <IconButton aria-label="read" onClick={() => {}}>
           <SchoolIcon />
         </IconButton>
@@ -83,7 +89,6 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
   return (
     <>
       <SearchFilter />
-      <Title>{tableName}</Title>
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>
@@ -96,7 +101,3 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
     </>
   );
 };
-
-const Title = styled.h1`
-  text-align: center;
-`;

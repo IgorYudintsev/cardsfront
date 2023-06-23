@@ -24,7 +24,7 @@ export const Packs = () => {
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   useEffect(() => {
     //dispatch(packsThunks.getPacks({ pageCount: 8 }));
-    dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 8 } : { pageCount: 8 }));
+    dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 10 } : { pageCount: 10 }));
   }, []);
 
   const headers: HeadersType[] = [
