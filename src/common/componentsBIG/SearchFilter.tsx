@@ -29,7 +29,7 @@ export const SearchFilter: React.FC<PropsType> = (props) => {
   };
   const myHandler = () => {
     saveState();
-    dispatch(packsThunks.getPacks(pack));
+    dispatch(packsThunks.getPacks({ ...pack, user_id: userIDfromProfile }));
   };
 
   const cleanHandler = () => {

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import TableContainer from "@mui/material/TableContainer";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -16,6 +16,8 @@ import { packsThunks } from "features/packs/packs.slice";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
 import { SearchFilter } from "common/componentsBIG/SearchFilter";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
+import { useNavigate } from "react-router-dom";
 
 type PropsType = {
   tableName: string;
@@ -29,8 +31,29 @@ type PropsType = {
 };
 export const Spreadsheet: React.FC<PropsType> = (props) => {
   const { tableName, packs, headers, valueRange, setValueRange, titleSearch, setTitleSearch, pack } = props;
-  const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
+  let [sortedPacks, setSortedPacks] = useState(packs);
+
+  let [showCards, setShowCards] = useState(false);
+  let [sortHandler, setSortHandler] = useState(false);
+
+  const sort = () => {
+    setSortHandler(!sortHandler);
+    let packData = [...packs];
+    if (sortHandler) {
+      setSortedPacks(packData.sort((a, b) => a.cardsCount - b.cardsCount));
+    }
+    if (!sortHandler) {
+      setSortedPacks(packData.sort((a, b) => b.cardsCount - a.cardsCount));
+    }
+  };
+
+  useEffect(() => {
+    setSortedPacks(packs);
+  }, [packs]);
 
   const cutter = (str: string, cut: number) => {
     if (cut === 13) {
@@ -38,10 +61,20 @@ export const Spreadsheet: React.FC<PropsType> = (props) => {
     }
     return str.length > cut ? `${str.slice(0, cut)}` : str;
   };
+
   const headersData = headers.map((el) => {
+    let currentName = el.name === "cards";
     return (
       <TableCell align={el.align}>
-        <h3>{el.name}</h3>
+        <h3 onMouseOver={() => setShowCards(true)} onMouseLeave={() => setShowCards(false)}>
+          {currentName ? (
+            <div title={"sort cards"} style={{ cursor: "pointer" }} onClick={sort}>
+              {el.name}
+            </div>
+          ) : (
+            <div> {el.name} </div>
+          )}
+        </h3>
       </TableCell>
     );
   });
@@ -58,7 +91,11 @@ export const Spreadsheet: React.FC<PropsType> = (props) => {
     dispatch(packsThunks.updatePack({ payload, userID: userIDfromProfile }));
   };
 
-  const currentPacks = packs.map((row) => (
+  const navigateHandler = () => {
+    navigate("/cards");
+  };
+
+  const currentPacks = sortedPacks.map((row) => (
     <TableRow key={row._id} sx={{ "&:last-child td, &:last-child th": { border: 0 } }}>
       <TableCell component="th" scope="row">
         {cutter(row.name, 13)}
@@ -73,7 +110,7 @@ export const Spreadsheet: React.FC<PropsType> = (props) => {
         {cutter(row.user_name, 13)}
       </TableCell>
       <TableCell size={"small"} align="center">
-        <IconButton aria-label="read" onClick={() => {}}>
+        <IconButton aria-label="read" onClick={navigateHandler}>
           <SchoolIcon />
         </IconButton>
         {userIDfromProfile === row.user_id ? (
