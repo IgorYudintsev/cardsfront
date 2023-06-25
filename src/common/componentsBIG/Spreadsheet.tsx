@@ -6,7 +6,7 @@ import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
-import { CardPacks } from "features/packs/packs.api";
+import { CardPacks, GetPacksPayload } from "features/packs/packs.api";
 import styled from "styled-components";
 import { HeadersType } from "features/packs/Packs";
 import IconButton from "@mui/material/IconButton";
@@ -21,8 +21,14 @@ type PropsType = {
   tableName: string;
   packs: CardPacks[];
   headers: HeadersType[];
+  valueRange: number[];
+  setValueRange: (valueRange: number[]) => void;
+  titleSearch: string;
+  setTitleSearch: (titleSearch: string) => void;
+  pack: GetPacksPayload;
 };
-export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
+export const Spreadsheet: React.FC<PropsType> = (props) => {
+  const { tableName, packs, headers, valueRange, setValueRange, titleSearch, setTitleSearch, pack } = props;
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const dispatch = useAppDispatch();
 
@@ -88,7 +94,13 @@ export const Spreadsheet = ({ packs, headers, tableName }: PropsType) => {
 
   return (
     <>
-      <SearchFilter />
+      <SearchFilter
+        valueRange={valueRange}
+        setValueRange={setValueRange}
+        titleSearch={titleSearch}
+        setTitleSearch={setTitleSearch}
+        pack={pack}
+      />
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

@@ -5,6 +5,7 @@ import { packsThunks } from "features/packs/packs.slice";
 import { useAppDispatch, useAppSelector } from "common/hooks";
 import { localHelper } from "helpers/localStorage";
 import { useEffect } from "react";
+import { GetPacksPayload } from "features/packs/packs.api";
 
 function valuetext(value: number) {
   return `${value}°C`;
@@ -12,11 +13,12 @@ function valuetext(value: number) {
 type PropsType = {
   setValue: (value: number[]) => void;
   value: number[];
+  pack: GetPacksPayload;
 };
-export const RangeSlider: React.FC<PropsType> = ({ setValue, value }) => {
+
+export const RangeSlider: React.FC<PropsType> = ({ setValue, value, pack }) => {
   const dispatch = useAppDispatch();
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
-  // const [value, setValue] = React.useState<number[]>([0, 8]);
 
   const handleChange = (event: Event, newValue: number | number[]) => {
     setValue(newValue as number[]);
@@ -24,17 +26,11 @@ export const RangeSlider: React.FC<PropsType> = ({ setValue, value }) => {
 
   const handleChangeCommitted = (event: React.SyntheticEvent | Event, value: number | Array<number>) => {
     if (Array.isArray(value)) {
-      dispatch(
-        packsThunks.getPacks(
-          localHelper(userIDfromProfile, { min: value[0], max: value[1], pageCount: value[1] - value[0] })
-        )
-      );
+      dispatch(packsThunks.getPacks(localHelper(userIDfromProfile, pack)));
     }
   };
   useEffect(() => {
-    packsThunks.getPacks(
-      localHelper(userIDfromProfile, { min: value[0], max: value[1], pageCount: value[1] - value[0] })
-    );
+    packsThunks.getPacks(localHelper(userIDfromProfile, pack));
   }, []);
 
   return (
