@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { InputWithoutForm } from "common/componentsSmall/InputWithoutForm";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import styled from "styled-components";
@@ -9,6 +9,8 @@ import { RangeSlider } from "common/componentsSmall/RangeSlider";
 import IconButton from "@mui/material/IconButton";
 import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
 import { GetPacksPayload } from "features/packs/packs.api";
+import { PayloadTypeForUpdate } from "features/packs/Packs";
+import { useDebounce } from "common/hooks/useDebounce";
 
 type PropsType = {
   titleSearch: string;
@@ -22,6 +24,8 @@ export const SearchFilter: React.FC<PropsType> = (props) => {
   const { valueRange, setValueRange, titleSearch, setTitleSearch, pack } = props;
   const dispatch = useAppDispatch();
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
+  const [on, setOn] = useState("");
+  const debouncedValue = useDebounce<string>(on, 1000);
 
   const allHandler = () => {
     deleteState();
@@ -38,19 +42,39 @@ export const SearchFilter: React.FC<PropsType> = (props) => {
     setTitleSearch("");
   };
 
+  useEffect(() => {
+    switch (on) {
+      case "CLEAN": {
+        return cleanHandler();
+      }
+      case "MY": {
+        return myHandler();
+      }
+      case "ALL": {
+        return allHandler();
+      }
+    }
+
+    // dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 10 } : { pageCount: 10 }));
+    // setValueRange([0, 10]);
+    // setTitleSearch("");
+  }, [debouncedValue]);
+
   return (
     <MainWrapper>
       <InputWithoutForm title={titleSearch} setTitle={setTitleSearch} pack={pack} />
       <div>
         <ButtonComponent
           buttonName={"My cards"}
-          callback={myHandler}
+          //callback={myHandler}
+          callback={() => setOn("MY")}
           disabled={false}
           variant={loadState() ? "outlined" : "contained"}
         />
         <ButtonComponent
           buttonName={"All cards"}
-          callback={allHandler}
+          //callback={allHandler}
+          callback={() => setOn("ALL")}
           disabled={false}
           variant={!loadState() ? "outlined" : "contained"}
         />
@@ -58,7 +82,8 @@ export const SearchFilter: React.FC<PropsType> = (props) => {
       <RangeSlider value={valueRange} setValue={setValueRange} pack={pack} />
 
       <div title="reset filters">
-        <IconButton aria-label="delete" onClick={cleanHandler}>
+        {/*<IconButton aria-label="delete" onClick={cleanHandler}>*/}
+        <IconButton aria-label="delete" onClick={() => setOn("CLEAN")}>
           <CleaningServicesIcon />
         </IconButton>
       </div>
@@ -72,9 +97,9 @@ const MainWrapper = styled.div`
   justify-content: space-around;
 `;
 
-//-----------------------------------------------------------------------------------------
+//---------------------------------------------------------------------------------------
 
-// import React, { useState } from "react";
+// import React, { useEffect, useState } from "react";
 // import { InputWithoutForm } from "common/componentsSmall/InputWithoutForm";
 // import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 // import styled from "styled-components";
@@ -84,33 +109,50 @@ const MainWrapper = styled.div`
 // import { RangeSlider } from "common/componentsSmall/RangeSlider";
 // import IconButton from "@mui/material/IconButton";
 // import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+// import { GetPacksPayload } from "features/packs/packs.api";
+// import { PayloadTypeForUpdate } from "features/packs/Packs";
+// import { useDebounce } from "common/hooks/useDebounce";
 //
-// export const SearchFilter = () => {
+// type PropsType = {
+//   titleSearch: string;
+//   setTitleSearch: (titleSearch: string) => void;
+//   valueRange: number[];
+//   setValueRange: (valueRange: number[]) => void;
+//   pack: GetPacksPayload;
+// };
+//
+// export const SearchFilter: React.FC<PropsType> = (props) => {
+//   const { valueRange, setValueRange, titleSearch, setTitleSearch, pack } = props;
 //   const dispatch = useAppDispatch();
 //   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
-//   const [value, setValue] = React.useState<number[]>([0, 10]); //RANGE
-//   const [title, setTitle] = useState(""); //SEARCH
+//   const [on, setOn] = useState(false);
+//   const debouncedValue = useDebounce<boolean>(on, 1000);
 //
 //   const allHandler = () => {
 //     deleteState();
-//     dispatch(packsThunks.getPacks({ min: value[0], max: value[1], pageCount: value[1] - value[0] }));
+//     dispatch(packsThunks.getPacks(pack));
 //   };
 //   const myHandler = () => {
 //     saveState();
-//     dispatch(
-//         packsThunks.getPacks({ user_id: userIDfromProfile, min: value[0], max: value[1], pageCount: value[1] - value[0] })
-//     );
+//     dispatch(packsThunks.getPacks({ ...pack, user_id: userIDfromProfile }));
 //   };
 //
-//   const cleanHandler = () => {
+//   // const cleanHandler = () => {
+//   //   setOn(!on)
+//   //   // dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 10 } : { pageCount: 10 }));
+//   //   // setValueRange([0, 10]);
+//   //   // setTitleSearch("");
+//   // };
+//
+//   useEffect(() => {
 //     dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 10 } : { pageCount: 10 }));
-//     setValue([0, 10]);
-//     setTitle("");
-//   };
+//     setValueRange([0, 10]);
+//     setTitleSearch("");
+//   }, [debouncedValue]);
 //
 //   return (
 //       <MainWrapper>
-//         <InputWithoutForm value={value} title={title} setTitle={setTitle} />
+//         <InputWithoutForm title={titleSearch} setTitle={setTitleSearch} pack={pack} />
 //         <div>
 //           <ButtonComponent
 //               buttonName={"My cards"}
@@ -125,7 +167,94 @@ const MainWrapper = styled.div`
 //               variant={!loadState() ? "outlined" : "contained"}
 //           />
 //         </div>
-//         <RangeSlider value={value} setValue={setValue} />
+//         <RangeSlider value={valueRange} setValue={setValueRange} pack={pack} />
+//
+//         <div title="reset filters">
+//           {/*<IconButton aria-label="delete" onClick={cleanHandler}>*/}
+//           <IconButton aria-label="delete" onClick={() => setOn(!on)}>
+//             <CleaningServicesIcon />
+//           </IconButton>
+//         </div>
+//       </MainWrapper>
+//   );
+// };
+//
+// const MainWrapper = styled.div`
+//   margin-top: 20px;
+//   display: flex;
+//   justify-content: space-around;
+// `;
+
+//-----------------------------------------------------------------------------------------
+
+//-----------------------------------------------------------------------------------------
+
+// import React, { useEffect, useState } from "react";
+// import { InputWithoutForm } from "common/componentsSmall/InputWithoutForm";
+// import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
+// import styled from "styled-components";
+// import { useAppDispatch, useAppSelector } from "common/hooks";
+// import { packsThunks } from "features/packs/packs.slice";
+// import { deleteState, loadState, saveState } from "helpers/localStorage";
+// import { RangeSlider } from "common/componentsSmall/RangeSlider";
+// import IconButton from "@mui/material/IconButton";
+// import CleaningServicesIcon from "@mui/icons-material/CleaningServices";
+// import { GetPacksPayload } from "features/packs/packs.api";
+// import { PayloadTypeForUpdate } from "features/packs/Packs";
+// import { useDebounce } from "common/hooks/useDebounce";
+//
+// type PropsType = {
+//   titleSearch: string;
+//   setTitleSearch: (titleSearch: string) => void;
+//   valueRange: number[];
+//   setValueRange: (valueRange: number[]) => void;
+//   pack: GetPacksPayload;
+// };
+//
+// export const SearchFilter: React.FC<PropsType> = (props) => {
+//   const { valueRange, setValueRange, titleSearch, setTitleSearch, pack } = props;
+//   const dispatch = useAppDispatch();
+//   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
+//   const [toggle, setToggle] = useState(false);
+//   const debouncedValue = useDebounce<boolean>(toggle, 500);
+//
+//   const allHandler = () => {
+//     deleteState();
+//     dispatch(packsThunks.getPacks(pack));
+//   };
+//   const myHandler = () => {
+//     saveState();
+//     dispatch(packsThunks.getPacks({ ...pack, user_id: userIDfromProfile }));
+//   };
+//
+//   const cleanHandler = () => {
+//     dispatch(packsThunks.getPacks(loadState() ? { user_id: userIDfromProfile, pageCount: 10 } : { pageCount: 10 }));
+//     setValueRange([0, 10]);
+//     setTitleSearch("");
+//   };
+//   useEffect(() => {
+//
+//
+//   }, [debouncedValue]);
+//
+//   return (
+//       <MainWrapper>
+//         <InputWithoutForm title={titleSearch} setTitle={setTitleSearch} pack={pack} />
+//         <div>
+//           <ButtonComponent
+//               buttonName={"My cards"}
+//               callback={myHandler}
+//               disabled={false}
+//               variant={loadState() ? "outlined" : "contained"}
+//           />
+//           <ButtonComponent
+//               buttonName={"All cards"}
+//               callback={allHandler}
+//               disabled={false}
+//               variant={!loadState() ? "outlined" : "contained"}
+//           />
+//         </div>
+//         <RangeSlider value={valueRange} setValue={setValueRange} pack={pack} />
 //
 //         <div title="reset filters">
 //           <IconButton aria-label="delete" onClick={cleanHandler}>
@@ -141,3 +270,5 @@ const MainWrapper = styled.div`
 //   display: flex;
 //   justify-content: space-around;
 // `;
+
+//-----------------------------------------------------------------------------------------

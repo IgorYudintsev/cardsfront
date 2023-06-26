@@ -8,6 +8,7 @@ import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import { loadState } from "helpers/localStorage";
 import { AddPack, GetPacksPayload } from "features/packs/packs.api";
 import { Pagination } from "common/componentsSmall/Pagination";
+import { useDebounce } from "common/hooks/useDebounce";
 
 export type HeadersType = {
   name: string;
@@ -24,6 +25,8 @@ export const Packs = () => {
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const [valueRange, setValueRange] = React.useState<number[]>([0, 10]); //RANGE
   const [titleSearch, setTitleSearch] = useState(""); //SEARCH
+  const [disabled, setDisabled] = useState(false);
+  const debouncedValue = useDebounce<boolean>(disabled, 500);
 
   const pack: GetPacksPayload = {
     min: valueRange[0],
@@ -46,12 +49,15 @@ export const Packs = () => {
   ];
 
   const addPackHandler = () => {
+    setDisabled(!disabled);
+  };
+
+  useEffect(() => {
     const payload: PayloadTypeForUpdate = {
       cardsPack: { name: "MYPACK" },
     };
-    // dispatch(packsThunks.addPack(payload));
     dispatch(packsThunks.addPack({ userIDfromProfile: userIDfromProfile, payload }));
-  };
+  }, [debouncedValue]);
 
   return (
     <div>

@@ -32,15 +32,18 @@ const getPacks = createAppAsyncThunk<any, GetPacksPayload>("packs/getPacks", asy
   });
 });
 
+//; setDisabled: (disabled: boolean) => void
+
 const addPack = createAppAsyncThunk<any, { userIDfromProfile: string; payload: { cardsPack: AddPack } }>(
   "packs/addPack",
   async (arg, thunkAPI) => {
+    // arg.setDisabled(true);
     return thunkTryCatch(thunkAPI, async () => {
       const payload: { cardsPack: AddPack } = arg.payload;
-      console.log(payload);
       const { dispatch, rejectWithValue } = thunkAPI;
       await packsApi.addPack(payload);
       dispatch(getPacks(loadState() ? { user_id: arg.userIDfromProfile, pageCount: 8 } : { pageCount: 8 }));
+      //  arg.setDisabled(false);
     });
   }
 );

@@ -81,6 +81,7 @@ export const Spreadsheet: React.FC<PropsType> = (props) => {
   const deleteHandler = (id: string) => {
     dispatch(packsThunks.deletePack({ idForDelete: id, userID: userIDfromProfile }));
   };
+
   const updateHandler = (id: string) => {
     const payload = {
       cardsPack: {

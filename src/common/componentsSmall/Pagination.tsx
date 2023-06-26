@@ -5,6 +5,7 @@ import { loadState, localHelper } from "helpers/localStorage";
 import { packsThunks } from "features/packs/packs.slice";
 import { useEffect } from "react";
 import { GetPacksPayload } from "features/packs/packs.api";
+import { useDebounce } from "common/hooks/useDebounce";
 
 type PropsType = {
   pack: GetPacksPayload;
@@ -18,14 +19,12 @@ export const Pagination = ({ pack }: PropsType) => {
   const dispatch = useAppDispatch();
 
   const [page, setPage] = React.useState(0);
+  const debouncedValue = useDebounce<number>(page, 500);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
   useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      dispatchFoo();
-    }, 1000);
-    return () => clearTimeout(timeoutId);
-  }, [page]);
+    dispatchFoo();
+  }, [debouncedValue]);
 
   const dispatchFoo = (newPage: number = page, newRowsPerPage: number = rowsPerPage) => {
     dispatch(
