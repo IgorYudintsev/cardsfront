@@ -18,12 +18,25 @@ import { ProtectedRoute } from "common/componentsSmall/ProtectedRoute";
 import { Header } from "common/componentsBIG/Header";
 import { Cards } from "features/cards/Cards";
 import { Packs } from "features/packs/Packs";
+import { useAppSelector } from "common/hooks";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <Navigate to="login" replace />,
+    element: <Navigate to="/login" replace />,
   },
+  // {
+  //   path: "/",
+  //   element: <Navigate to="login" replace />,
+  // },
+  // {
+  //   path: "/",
+  //   element: (
+  //     <App>
+  //       <Login />
+  //     </App>
+  //   ),
+  // },
   {
     path: "/login",
     element: (
@@ -86,9 +99,9 @@ const router = createBrowserRouter([
     path: "/packs",
     element: (
       <ProtectedRoute>
-        <App disabled={false}>
-          <Packs />
-        </App>
+        {/*<App disabled={false}>*/}
+        <Packs />
+        {/*</App>*/}
       </ProtectedRoute>
     ),
   },

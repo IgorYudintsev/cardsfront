@@ -28,6 +28,9 @@ const slice = createSlice({
   },
   extraReducers: (builder) => {
     builder
+      .addCase(authMe.fulfilled, (state, action) => {
+        state.profile = action.payload;
+      })
       .addCase(login.fulfilled, (state, action) => {
         state.profile = action.payload;
       })
@@ -73,6 +76,14 @@ const slice = createSlice({
 const register = createAppAsyncThunk<void, ArgRegisterType>("auth/register", async (arg: ArgRegisterType, thunkAPI) => {
   await thunkTryCatch(thunkAPI, async () => {
     await authApi.register(arg);
+  });
+});
+
+const authMe = createAppAsyncThunk<ProfileType, void>("auth/me", async (arg, thunkAPI) => {
+  return thunkTryCatch(thunkAPI, async () => {
+    // let res = await authApi.authMe();
+    // console.log(res.data);
+    return await authApi.authMe();
   });
 });
 
@@ -197,4 +208,4 @@ const updateProfile = createAppAsyncThunk<ProfileType, { payload: UpdateProfileT
 
 export const authReducer = slice.reducer;
 export const authActions = slice.actions;
-export const authThunks = { register, login, forgetpassword, setNewPas, logout, updateProfile };
+export const authThunks = { register, authMe, login, forgetpassword, setNewPas, logout, updateProfile };

@@ -1,8 +1,12 @@
-import React, { ReactNode } from "react";
+import React, { ReactNode, useEffect } from "react";
 import "app/App.css";
 import { Header } from "common/componentsBIG/Header";
 import { LinearProgress } from "@mui/material";
-import { useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
+import { appActions } from "app/app.slice";
+import { authThunks } from "features/auth/auth.slice";
+import { useNavigate } from "react-router-dom";
+import { Login } from "features/auth/Login";
 
 type AppPropsType = {
   children: ReactNode;
@@ -11,22 +15,57 @@ type AppPropsType = {
 
 const App: React.FC<AppPropsType> = (props) => {
   const { children, disabled } = props;
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const isLoading = useAppSelector((state) => state.app.isLoading);
+  const logined = useAppSelector((state) => state.auth.profile);
+  const authMe = useAppSelector((state) => state.auth.profile);
 
   // useEffect(() => {
-  //   setTimeout(() => {
-  //     dispatch(appActions.setIsLoading({ isLoading: false }));
-  //   }, 3000);
+  //   if (!logined) {
+  //     dispatch(authThunks.authMe());
+  //   }
   // }, []);
+
+  // useEffect(() => {
+  //   dispatch(authThunks.authMe());
+  // }, []);
+
+  // const onClickHandler = () => {
+  //   dispatch(authThunks.authMe());
+  // };
+
+  // // console.log(authMe);
+  // console.log(authMe);
+
+  useEffect(() => {
+    dispatch(authThunks.authMe());
+  }, []);
 
   return (
     <div className="App">
       <Header disabled={disabled} />
-      {isLoading && <LinearProgress />}
+      {/*<button onClick={onClickHandler}>ff</button>*/}
+      {/*{authMe ? <div>OK</div> : <div>!!!!</div>}*/}
+      {/*{authMe ? <div>{children}</div> : <div>!!!!</div>}*/}
+
+      {/*{isLoading && <LinearProgress />}*/}
+
       {children}
+
       {/*<Counter />*/}
     </div>
   );
+
+  // return (
+  //     <div className="App">
+  //       {authMe ? <div>ok</div> : <div>!!!!!!</div>}
+  //       {/*<Header disabled={disabled} />*/}
+  //       {/*{isLoading && <LinearProgress />}*/}
+  //       {/*{children}*/}
+  //       {/*<Counter />*/}
+  //     </div>
+  // );
 };
 
 export default App;
@@ -77,3 +116,46 @@ export default App;
 // //yarn add --dev --exact prettier
 // // прописываем в терминале:   echo {}> .prettierrc.json
 // //в файле:
+//----------------------------------------------------------------------------------------------------
+
+// import React, { ReactNode, useEffect } from "react";
+// import "app/App.css";
+// import { Header } from "common/componentsBIG/Header";
+// import { LinearProgress } from "@mui/material";
+// import { useAppDispatch, useAppSelector } from "common/hooks";
+// import { appActions } from "app/app.slice";
+// import { authThunks } from "features/auth/auth.slice";
+// import { useNavigate } from "react-router-dom";
+//
+// type AppPropsType = {
+//   children: ReactNode;
+//   disabled?: boolean;
+// };
+//
+// const App: React.FC<AppPropsType> = (props) => {
+//   const { children, disabled } = props;
+//   const dispatch = useAppDispatch();
+//   const navigate = useNavigate();
+//   const isLoading = useAppSelector((state) => state.app.isLoading);
+//   const authMe = useAppSelector((state) => state.auth.profile);
+//
+//   useEffect(() => {
+//     dispatch(authThunks.authMe());
+//   }, []);
+//
+//   // if (authMe) {
+//   //   navigate("/packs");
+//   // }
+//
+//   return (
+//       <div className="App">
+//         {authMe ? <div>ok</div> : <div>!!!!!!</div>}
+//         {/*<Header disabled={disabled} />*/}
+//         {/*{isLoading && <LinearProgress />}*/}
+//         {/*{children}*/}
+//         {/*<Counter />*/}
+//       </div>
+//   );
+// };
+//
+// export default App;

@@ -7,7 +7,6 @@ import TableRow from "@mui/material/TableRow";
 import TableCell from "@mui/material/TableCell";
 import TableBody from "@mui/material/TableBody";
 import { CardPacks, GetPacksPayload } from "features/packs/packs.api";
-import styled from "styled-components";
 import { HeadersType } from "features/packs/Packs";
 import IconButton from "@mui/material/IconButton";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -15,9 +14,8 @@ import { useAppDispatch, useAppSelector } from "common/hooks";
 import { packsThunks } from "features/packs/packs.slice";
 import EditIcon from "@mui/icons-material/Edit";
 import SchoolIcon from "@mui/icons-material/School";
-import { SearchFilter } from "common/componentsBIG/SearchFilter";
-import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import { useNavigate } from "react-router-dom";
+import { SearchFilter } from "common/componentsBIG/SearchFilter";
 
 type PropsType = {
   tableName: string;
@@ -78,6 +76,7 @@ export const Spreadsheet: React.FC<PropsType> = (props) => {
       </TableCell>
     );
   });
+
   const deleteHandler = (id: string) => {
     dispatch(packsThunks.deletePack({ idForDelete: id, userID: userIDfromProfile }));
   };
@@ -132,13 +131,13 @@ export const Spreadsheet: React.FC<PropsType> = (props) => {
 
   return (
     <>
-      <SearchFilter
-        valueRange={valueRange}
-        setValueRange={setValueRange}
-        titleSearch={titleSearch}
-        setTitleSearch={setTitleSearch}
-        pack={pack}
-      />
+      {/*<SearchFilter*/}
+      {/*  valueRange={valueRange}*/}
+      {/*  setValueRange={setValueRange}*/}
+      {/*  titleSearch={titleSearch}*/}
+      {/*  setTitleSearch={setTitleSearch}*/}
+      {/*  pack={pack}*/}
+      {/*/>*/}
       <TableContainer component={Paper}>
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
           <TableHead>

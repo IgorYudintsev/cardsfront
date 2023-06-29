@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useEffect } from "react";
 import incubaIcon from "assets/icon/incubaIcon.jpg";
 import styled from "styled-components";
 import { useNavigate } from "react-router-dom";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
 import Avatar from "@mui/material/Avatar";
 import ava from "assets/icon/ava.jpg";
-import { useAppSelector } from "common/hooks";
+import { useAppDispatch, useAppSelector } from "common/hooks";
 import MenuListComposition from "common/componentsSmall/MenuListComposition";
+import { authThunks } from "features/auth/auth.slice";
 
 type PropsType = {
   disabled?: boolean;
@@ -14,12 +15,17 @@ type PropsType = {
 
 export const Header: React.FC<PropsType> = (props) => {
   const { disabled = false } = props;
+  const dispatch = useAppDispatch();
   const profile = useAppSelector((state) => state.auth.profile);
   const navigate = useNavigate();
 
   const goToRegisterHandler = () => {
     navigate("/register");
   };
+
+  // useEffect(() => {
+  //   dispatch(authThunks.authMe());
+  // }, []);
 
   return (
     <>

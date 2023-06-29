@@ -35,6 +35,7 @@ const slice = createSlice({
       .addMatcher(
         (action) => action.type.endsWith("/fulfilled"),
         (state, action) => {
+          state.error = null;
           state.isLoading = false;
         }
       )
@@ -47,6 +48,13 @@ const slice = createSlice({
           } else {
             state.error = `Native error ${err.message}`;
           }
+          state.isLoading = false;
+        }
+      )
+      .addMatcher(
+        (action) => action.type === "auth/me/rejected",
+        (state, action) => {
+          state.error = null;
           state.isLoading = false;
         }
       );
@@ -67,3 +75,5 @@ const slice = createSlice({
 
 export const appReducer = slice.reducer;
 export const appActions = slice.actions;
+
+//auth/me/rejected

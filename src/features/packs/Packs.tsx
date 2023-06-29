@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-
 import { useAppDispatch, useAppSelector } from "common/hooks";
-import { packsActions, packsThunks } from "features/packs/packs.slice";
+import { packsThunks } from "features/packs/packs.slice";
 import { Spreadsheet } from "common/componentsBIG/Spreadsheet";
 import styled from "styled-components";
 import { ButtonComponent } from "common/componentsSmall/ButtonComponent";
@@ -9,6 +8,8 @@ import { loadState } from "helpers/localStorage";
 import { AddPack, GetPacksPayload } from "features/packs/packs.api";
 import { Pagination } from "common/componentsSmall/Pagination";
 import { useDebounce } from "common/hooks/useDebounce";
+import { useNavigate } from "react-router-dom";
+import { authThunks } from "features/auth/auth.slice";
 
 export type HeadersType = {
   name: string;
@@ -21,7 +22,9 @@ export type PayloadTypeForUpdate = {
 
 export const Packs = () => {
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const packs = useAppSelector((state) => state.packs.cardPacks);
+  const error = useAppSelector((state) => state.app.error);
   const userIDfromProfile = useAppSelector((state) => state.auth.profile!._id);
   const [valueRange, setValueRange] = React.useState<number[]>([0, 10]); //RANGE
   const [titleSearch, setTitleSearch] = useState(""); //SEARCH
@@ -48,14 +51,29 @@ export const Packs = () => {
     { name: "actions", align: "center" },
   ];
 
+  // const addPackHandler = () => {
+  //   setDisabled(!disabled);
+  // };
+
   const addPackHandler = () => {
-    setDisabled(!disabled);
+    setDisabled(true);
   };
 
   useEffect(() => {
     const payload: PayloadTypeForUpdate = {
       cardsPack: { name: "MYPACK" },
     };
+    if (debouncedValue == true) {
+      dispatch(packsThunks.addPack({ userIDfromProfile: userIDfromProfile, payload }));
+      setDisabled(false);
+    }
+  }, [debouncedValue]);
+
+  useEffect(() => {
+    const payload: PayloadTypeForUpdate = {
+      cardsPack: { name: "MYPACK" },
+    };
+
     dispatch(packsThunks.addPack({ userIDfromProfile: userIDfromProfile, payload }));
   }, [debouncedValue]);
 

@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { AddPack, CardPacks, GetPacks, GetPacksPayload, packsApi, UpdatePack } from "features/packs/packs.api";
 import { createAppAsyncThunk, thunkTryCatch } from "common/utils";
 import { loadState } from "helpers/localStorage";
+import { authThunks } from "features/auth/auth.slice";
 
 export const packsInitialState: GetPacks = {
   cardPacks: [] as CardPacks[],
@@ -27,7 +28,9 @@ const slice = createSlice({
 
 const getPacks = createAppAsyncThunk<any, GetPacksPayload>("packs/getPacks", async (arg, thunkAPI) => {
   return thunkTryCatch(thunkAPI, async () => {
+    const { dispatch, rejectWithValue } = thunkAPI;
     let res = await packsApi.getPacks(arg);
+    dispatch(authThunks.authMe());
     return res.data;
   });
 });

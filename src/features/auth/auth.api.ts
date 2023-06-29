@@ -4,6 +4,15 @@ export const authApi = {
   register: (payload: ArgRegisterType) => {
     return instance.post<RegisterResponseType>("auth/register", payload);
   },
+  // authMe: () => {
+  //   console.log("authMe");
+  //   return instance.post("auth/me", {});
+  // },
+  authMe: () => {
+    console.log("authMe");
+    return instance.post("auth/me", {}).then((res) => res.data);
+  },
+
   login: (payload: ArgLoginType) => {
     return instance.post<ProfileType>("auth/login", payload).then((res) => res.data);
   },

@@ -35,6 +35,7 @@ export const Form: React.FC<PropsType> = (props) => {
   } = useForm<Inputs>();
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
+    console.log("onSubmit", data);
     const payload = {
       email: data.email, //dollarselephant@gmail.com
       password: data.password, //12345678
@@ -87,7 +88,9 @@ export const Form: React.FC<PropsType> = (props) => {
               />
             )}
 
+            {/*{!forRegister && <input type={"checkbox"} {...register("rememberMe")} />}*/}
             {!forRegister && <CheckBox name={"rememberMe"} control={control} />}
+            {/*<CheckBox name={"rememberMe"} control={control} />*/}
 
             <S.WrapperForgetPassword>
               <Link to={"/forgot"}>Forgot password?</Link>
